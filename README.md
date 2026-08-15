@@ -6,6 +6,20 @@
 
 Eli Mode 是 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 的一个 Agent 预设，**以wiki 驱动的长期记忆和技能为核心**，配合极度精简的Harness搭建。
 
+## 桌面版（Windows）
+
+开箱即用的 Windows 桌面版：内置本插件、默认开启界面润色，首次运行自动初始化，新会话默认 Eli Mode 预设。
+
+**下载**：[GitHub Releases](https://github.com/CeilCelia/dsh-eli-mode/releases)（DSH Eli Mode v0.1.8 · Windows x64）
+
+![打包版界面](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_package.png)
+
+![知识库页面](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_kb.png)
+
+- 基于 [anywhere-labs/deepseek-harness-desktop](https://github.com/anywhere-labs/deepseek-harness-desktop)（MIT）二次开发，其本身是官方 [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness)（MIT）的社区桌面版
+- 修改点：内置 dsh-eli-mode 并默认启用、eli-mode.polish 默认开、同源新标签页（/eli-kb）在应用内子窗口打开
+- 分发物内含完整 LICENSE / NOTICE（MIT + Apache-2.0 + 立绘 CC BY-NC-SA 署名），详见桌面版 esources/
+- 特别致谢 upstream 作者的桌面壳工作；**本桌面版并非 DeepSeek 官方产品**
 ## 特性
 
 - **wiki驱动**：跨会话持久化的卡帕西式wiki，代替记忆和skill模块，**你没看错，用wiki代替memory和skill，谁用谁知道**；条目间用 `[[id]]` 互链，自动维护正/反向链接与树形目录
@@ -60,10 +74,6 @@ eli-mode:
 ```
 ## 知识库用法
 
-![知识库页面](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_kb.png)
-
-![打包版界面](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_package.png)
-
 - 网页：`http://<dsh地址>/eli-kb`（浏览 / 编辑 / 搜索）
 - 对话中：`kb_search 关键词` → `kb_read 条目id` → 需要留存时 `kb_write 标题 + 内容`
 - 存储位置：`~/.dsh/eli-knowledge/wiki/`（可用环境变量 `ELI_KB_ROOT` 覆盖）
@@ -76,17 +86,6 @@ npx -y @deepseek-ai/dsh plugin --profile web remove dsh-eli-mode
 ```
 
 重启 `dsh web`。预设文件与知识库数据保留在 `~/.dsh/` 下，可手动删除。
-
-## 桌面版（Windows）
-
-开箱即用的 Windows 桌面版（内置本插件、默认开启界面润色，首次运行自动初始化）：
-
-- **下载**：[GitHub Releases](https://github.com/CeilCelia/dsh-eli-mode/releases)（DSH Eli Mode v0.1.8，Windows x64）
-
-- 基于 [anywhere-labs/deepseek-harness-desktop](https://github.com/anywhere-labs/deepseek-harness-desktop)（MIT）二次开发，其本身是官方 [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness)（MIT）的社区桌面版
-- 修改点：内置 dsh-eli-mode 并默认启用、`eli-mode.polish` 默认开、同源新标签页（/eli-kb）在应用内子窗口打开
-- 分发物内含完整 LICENSE / NOTICE（MIT + Apache-2.0 + 立绘 CC BY-NC-SA 署名），详见桌面版 `resources/`
-- 特别致谢 upstream 作者的桌面壳工作；**本桌面版并非 DeepSeek 官方产品**
 
 ## 项目结构
 

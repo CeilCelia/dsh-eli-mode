@@ -8,6 +8,27 @@ Eli Mode is an agent preset for [DeepSeek Harness (DSH)](https://github.com/deep
 built around **wiki-driven long-term memory and skills**, on an extremely minimal
 Harness setup.
 
+## Desktop edition (Windows)
+
+An out-of-the-box Windows desktop build: bundles this plugin, enables the
+polish/skin by default, auto-initializes on first run, and defaults new
+sessions to the Eli Mode preset.
+
+**Download**: [GitHub Releases](https://github.com/CeilCelia/dsh-eli-mode/releases) (DSH Eli Mode v0.1.8, Windows x64)
+
+![Desktop edition](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_package.png)
+
+![Knowledge base page](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_kb.png)
+
+- Built on [anywhere-labs/deepseek-harness-desktop](https://github.com/anywhere-labs/deepseek-harness-desktop) (MIT),
+  itself a community desktop shell for the official
+  [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) (MIT)
+- Changes: bundles dsh-eli-mode (auto-mounted on first run), eli-mode.polish
+  defaults to on, same-origin new tabs (/eli-kb) open in an in-app child window
+- The distribution carries full LICENSE / NOTICE (MIT + Apache-2.0 + CC BY-NC-SA
+  art attribution) under the desktop esources/
+- Thanks to the upstream shell authors; **this desktop build is not an official
+  DeepSeek product**
 ## Features
 
 - **Wiki-driven memory**: a persistent, cross-session wiki that replaces the memory and
@@ -71,10 +92,6 @@ eli-mode:
 ```
 ## Using the knowledge base
 
-![Knowledge base page](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_kb.png)
-
-![Desktop edition](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_package.png)
-
 - Web: `http://<dsh-host>/eli-kb` (browse / edit / search; the page follows the dsh UI language)
 - In chat: `kb_search <query>` → `kb_read <id>` → `kb_write <title> + <content>` to persist
 - Storage: `~/.dsh/eli-knowledge/wiki/` (override with `ELI_KB_ROOT`)
@@ -88,23 +105,6 @@ npx -y @deepseek-ai/dsh plugin --profile web remove dsh-eli-mode
 ```
 
 Restart `dsh web`. Preset files and KB data remain under `~/.dsh/` for manual cleanup.
-
-## Desktop edition (Windows)
-
-An out-of-the-box Windows desktop build (bundles this plugin, enables the
-
-- **Download**: [GitHub Releases](https://github.com/CeilCelia/dsh-eli-mode/releases) (DSH Eli Mode v0.1.8, Windows x64)
-polish/skin by default, auto-initializes on first run):
-
-- Built on [anywhere-labs/deepseek-harness-desktop](https://github.com/anywhere-labs/deepseek-harness-desktop) (MIT),
-  itself a community desktop shell for the official
-  [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) (MIT)
-- Changes: bundles dsh-eli-mode (auto-mounted on first run), `eli-mode.polish`
-  defaults to on, same-origin new tabs (/eli-kb) open in an in-app child window
-- The distribution carries full LICENSE / NOTICE (MIT + Apache-2.0 + CC BY-NC-SA
-  art attribution) under the desktop `resources/`
-- Thanks to the upstream shell authors; **this desktop build is not an official
-  DeepSeek product**
 
 ## Project layout
 
