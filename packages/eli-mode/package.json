@@ -1,7 +1,7 @@
 {
   "name": "@ceilcelia/dsh-eli-mode",
   "version": "0.1.0",
-  "description": "Eli Mode for DeepSeek Harness (DSH): a knowledge-base-driven agent preset with wiki service, web UI, and a settings management page. One command install: npx -y @deepseek-ai/dsh plugin --profile web add @ceilcelia/dsh-eli-mode.",
+  "description": "知识库驱动的 Agent 预设",
   "type": "module",
   "main": "lib/index.js",
   "exports": {
