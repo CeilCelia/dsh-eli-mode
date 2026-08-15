@@ -474,7 +474,7 @@ window.__ModuleLoader__.load({
 		// 界面润色（polish）：默认关，由 eli-mode.polish 控制，免刷新开关
 		// ═══════════════════════════════════════════════════════════════════
 
-		const POLISH_CSS = `body::after { content: ''; position: fixed; right: 10px; bottom: 0; width: 520px; height: 780px; z-index: 99998; pointer-events: none; background: url('/eli-kb/art/left') no-repeat bottom right / contain; opacity: .88; filter: drop-shadow(0 0 24px rgba(96,112,176,.3)); }
+		const POLISH_CSS = `body::after { content: ''; position: fixed; right: 10px; bottom: 0; width: clamp(280px, 20vw, 520px); aspect-ratio: 2 / 3; height: auto; z-index: 99998; pointer-events: none; background: url('/eli-kb/art/left') no-repeat bottom right / contain; opacity: .88; filter: drop-shadow(0 0 24px rgba(96,112,176,.3)); }
 			body[data-eli-wiki]::after { display: none; }
 			body button, body [class*='card'], body [class*='item'] { transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease; }
 			body button:hover:not(:disabled) { transform: translateY(-1px); }

@@ -4,7 +4,7 @@ English | [中文](README.md) · [GitHub](https://github.com/CeilCelia/dsh-eli-m
 
 [![npm version](https://img.shields.io/npm/v/dsh-eli-mode)](https://www.npmjs.com/package/dsh-eli-mode)
 
-Eli Mode is an agent preset for [DeepSeek Harness (DSH)](https://github.com/deepseek-ai/dsh)
+Eli Mode is an agent preset for [DeepSeek Harness (DSH)](https://github.com/deepseek-ai/deepseek-harness)
 built around **wiki-driven long-term memory and skills**, on an extremely minimal
 Harness setup.
 
@@ -73,6 +73,8 @@ eli-mode:
 
 ![Knowledge base page](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_kb.png)
 
+![Desktop edition](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_package.png)
+
 - Web: `http://<dsh-host>/eli-kb` (browse / edit / search; the page follows the dsh UI language)
 - In chat: `kb_search <query>` → `kb_read <id>` → `kb_write <title> + <content>` to persist
 - Storage: `~/.dsh/eli-knowledge/wiki/` (override with `ELI_KB_ROOT`)
@@ -112,3 +114,9 @@ packages/
    the DeepSeek-element material curation (tertiary derivative)
 
 Special thanks to the creators above — their art and curation give this UI its soul.
+
+## Desktop edition (Windows)
+
+An out-of-the-box Windows desktop build (bundles this plugin, polish on by default), based on
+
+- **Download**: [GitHub Releases](https://github.com/CeilCelia/dsh-eli-mode/releases) (DSH Eli Mode v0.1.8, Windows x64) [anywhere-labs/deepseek-harness-desktop](https://github.com/anywhere-labs/deepseek-harness-desktop) (MIT) - itself a community shell of the official [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness). The distribution carries full LICENSE/NOTICE. Not an official DeepSeek product.
