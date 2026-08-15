@@ -43,7 +43,7 @@ npx -y @deepseek-ai/dsh plugin --profile web add dsh-eli-mode
 | 注入知识库目录      | 开关：是否把目录清单注入会话提示词                       |
 | 界面润色（polish） | 开关：立绘、对话内「知识库」标签页、token 统计、工具调用折叠；免刷新生效 |
 
-> **设置页表单的已知前提**：DSH 官方设置页只放行硬编码的命名空间白名单（`WEB_SETTINGS_NAMESPACES`）。若表单显示「未向设置页暴露」提示，按 [docs/settings-whitelist.md](docs/settings-whitelist.md) 补充 `eli-mode` 白名单后重启；不补也不影响预设与知识库，可直接编辑 `~/.dsh/settings.yaml`（`eli-mode:` 段）。
+> **开箱即用**：插件内置设置桥接（loopback），配置卡片无需修改官方白名单即可使用；若部署禁用了桥接（如远程访问），仍可按 [docs/settings-whitelist.md](docs/settings-whitelist.md) 补充白名单，或直接编辑 `~/.dsh/settings.yaml`。
 
 ### 直接编辑 settings.yaml
 

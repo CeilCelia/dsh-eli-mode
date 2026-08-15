@@ -108,6 +108,82 @@ window.__ModuleLoader__.load({
 			};
 		}
 
+		// ── 设置桥接（自包含）：官方 settingsScope 对该命名空间不可用时，
+		//    回退到本插件的 loopback HTTP 桥（host 侧 /eli-kb/api/settings/*），
+		//    让配置卡片在任意 DSH 上开箱即用，不依赖官方白名单补丁。──
+		function createBridgeApi(fetchFn) {
+			const post = (path, body) => fetchFn('/eli-kb/api/settings' + path, {
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify(body)
+			}).then((r) => r.json()).catch(() => ({ result: { ok: false, code: 'internal', message: 'settings bridge unreachable' } }));
+			return { settings: { describe: () => post('/describe', {}), mutate: (payload) => post('/mutate', payload) } };
+		}
+		class BridgeScopeController {
+			constructor(api, spec) {
+				this.api = api;
+				this.spec = spec;
+				this.store = makeMiniStore({ status: 'loading', value: void 0, base: void 0, user: void 0, revision: void 0, writable: false, mode: 'host' });
+				this.tail = Promise.resolve();
+				this.disposed = false;
+			}
+			getSnapshot() { return this.store.getSnapshot(); }
+			subscribe(l) { return this.store.subscribe(l); }
+			load() { return this.enqueue(() => this.read()); }
+			set(field, value) { return this.enqueue(() => this.write({ op: 'set', path: [field], value })); }
+			unset(field) { return this.enqueue(() => this.write({ op: 'unset', path: [field] })); }
+			dispose() { this.disposed = true; return this.tail; }
+			enqueue(operation) {
+				if (this.disposed) return Promise.resolve();
+				const task = this.tail.then(async () => { if (this.disposed) return; await operation(); });
+				this.tail = task.catch(() => {});
+				return task;
+			}
+			async read() {
+				let response;
+				try { response = await this.api.settings.describe({}); } catch { this.store.set({ ...this.store.getSnapshot(), status: 'unavailable' }); return; }
+				if (!response.result.ok || this.disposed) { this.store.set({ ...this.store.getSnapshot(), status: 'unavailable' }); return; }
+				this.accept(response.result.value);
+			}
+			async write(op) {
+				const revision = this.getSnapshot().revision;
+				let response;
+				try { response = await this.api.settings.mutate({ ns: this.spec.namespace, ops: [op], ...(revision === void 0 ? {} : { expectedRevision: revision }) }); }
+				catch { await this.read(); return; }
+				if (!response.result.ok || this.disposed) { await this.read(); return; }
+				this.accept(response.result.value);
+			}
+			accept(view) {
+				this.store.set({ status: 'ready', value: view.value, base: view.base, user: view.user, writable: view.writable, revision: view.revision, mode: 'host' });
+			}
+		}
+		function createCompatScope({ primary, namespace, fetchFn }) {
+			const fallback = fetchFn === void 0 ? void 0 : new BridgeScopeController(createBridgeApi(fetchFn), { namespace });
+			const store = makeMiniStore(project());
+			let fallbackStarted = false;
+			const publish = () => store.set(project());
+			const startFallback = () => { if (fallback === void 0 || fallbackStarted) return; fallbackStarted = true; fallback.load(); };
+			function project() {
+				const p = primary.getSnapshot();
+				if (p.status === 'ready' || fallback === void 0) return p;
+				if (p.status === 'loading') return p;
+				const b = fallback.getSnapshot();
+				if (b.status === 'ready') return b;
+				if (b.status === 'loading') return { ...p, status: 'loading' };
+				return p;
+			}
+			primary.subscribe(() => { publish(); if (primary.getSnapshot().status === 'unavailable') startFallback(); });
+			if (fallback !== void 0) fallback.subscribe(publish);
+			if (primary.getSnapshot().status === 'unavailable') startFallback();
+			return {
+				getSnapshot: () => store.getSnapshot(),
+				subscribe: (l) => store.subscribe(l),
+				set: (field, value) => active().set(field, value),
+				unset: (field) => active().unset(field)
+			};
+			function active() { return primary.getSnapshot().status === 'ready' ? primary : (fallback ?? primary); }
+		}
+
 		// ── 设置字段（与 host 侧 schema 保持一致）──────────────────────────
 		const ELI_MODE_FIELDS = {
 			personaPrompt: {
@@ -563,9 +639,13 @@ window.__ModuleLoader__.load({
 				let attempts = 0;
 				const mountCard = () => {
 					try {
-						const binder = ctx.get('webUiSettings') || ctx.get('settingsScope');
-						if (binder && typeof binder.bind === 'function') {
-							const scope = binder.bind({ namespace: 'eli-mode' });
+						const settingsScope = ctx.get('settingsScope');
+						if (settingsScope && typeof settingsScope.bind === 'function') {
+							// 官方 scope 优先；命名空间未被官方白名单放行时（不可用），
+							// 回退到本插件内置的 loopback 设置桥（开箱即用，无需改白名单）
+							const primary = settingsScope.bind({ namespace: 'eli-mode' });
+							const loopback = ctx.get('connection') !== void 0 && ctx.get('connection').isLoopback === true;
+							const scope = createCompatScope({ primary, namespace: 'eli-mode', fetchFn: loopback ? ((input, init) => fetch(input, init)) : void 0 });
 							const controller = new EliModeCardController(scope);
 							slots.inject('settings.plugin.item', () => slots.register({
 								name: 'settings.plugin.item',

@@ -1,8 +1,9 @@
-// 知识库页面 + 立绘静态服务 + JSON API（host 平面）
+// 知识库页面 + 立绘静态服务 + JSON API + 设置桥接（host 平面）
 import { promises as fsp } from 'node:fs'
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import os from 'node:os'
+import { SettingsConflictError, settingsNamespace } from '@deepseek-ai/dsh-settings'
 
 export const name = 'eli-web-routes'
 export const inject = ['webServer']
@@ -92,4 +93,45 @@ export function apply(ctx) {
       return json(res, 200, { ok: true, side, bytes: buf.length })
     } catch (error) { return json(res, 500, { ok: false, error: error instanceof Error ? error.message : String(error) }) }
   } }), 'eli-web.route-art-upload()')
+
+  // ── 设置桥接：绕过官方 WEB_SETTINGS_NAMESPACES 白名单，让 eli-mode 配置卡片
+  //    在任意 DSH 上开箱即用。loopback-only（客户端仅在本地连接时启用）。
+  //    仅暴露 eli-mode 一个命名空间；读写都走宿主 settings 服务（与官方同源）。──
+  const ELI_NS = settingsNamespace('eli-mode')
+  const bridgeView = (settings, request, ns) => {
+    if (settings === undefined) return json(request, 503, { ok: false, error: 'settings 服务不可用' })
+    const descriptor = settings.describe({ redactSecrets: true }).find((candidate) => String(candidate.ns) === String(ns))
+    if (descriptor === undefined) return json(request, 200, { ok: false, error: 'namespace not registered: eli-mode' })
+    return json(request, 200, {
+      ok: true,
+      value: {
+        ns: String(descriptor.ns),
+        schema: descriptor.schema,
+        ...descriptor.base === void 0 ? {} : { base: descriptor.base },
+        ...descriptor.user === void 0 ? {} : { user: descriptor.user },
+        value: descriptor.value,
+        writable: descriptor.writable,
+        revision: descriptor.revision
+      }
+    })
+  }
+  ctx.effect(() => server.register({ kind: 'exact', path: '/eli-kb/api/settings/describe', handler: async (req, res) => {
+    try { bridgeView(ctx.get('settings'), res, ELI_NS) } catch (error) { json(res, 500, { ok: false, error: error instanceof Error ? error.message : String(error) }) }
+  } }), 'eli-web.route-settings-describe()')
+  ctx.effect(() => server.register({ kind: 'exact', path: '/eli-kb/api/settings/mutate', handler: async (req, res) => {
+    try {
+      const settings = ctx.get('settings')
+      if (settings === undefined) return json(res, 503, { ok: false, error: 'settings 服务不可用' })
+      const args = await readBody(req)
+      try {
+        await settings.mutate(ELI_NS, Array.isArray(args.ops) ? args.ops : [], args.expectedRevision)
+      } catch (error) {
+        if (error instanceof SettingsConflictError) {
+          return json(res, 200, { ok: false, code: 'settings-conflict', message: error.message, details: { expected: error.expected, actual: error.actual } })
+        }
+        return json(res, 200, { ok: false, code: 'settings-rejected', message: error instanceof Error ? error.message : String(error) })
+      }
+      return bridgeView(settings, res, ELI_NS)
+    } catch (error) { json(res, 500, { ok: false, error: error instanceof Error ? error.message : String(error) }) }
+  } }), 'eli-web.route-settings-mutate()')
 }
