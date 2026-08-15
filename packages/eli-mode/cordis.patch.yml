@@ -1,14 +1,14 @@
-# @ceiicelia/dsh-eli-mode bundle patch — host 平面挂载点
+# dsh-eli-mode bundle patch — host 平面挂载点
 # eli-kb：知识库服务；eli-web-routes：知识库网页/立绘/API；eli-mode：host 入口
 # （设置命名空间注册 + 预设同步 + 默认知识库播种）。
 - insert:
     - id: eli-kb
-      name: '@ceiicelia/dsh-eli-mode/lib/kb.js'
+      name: 'dsh-eli-mode/lib/kb.js'
 
 - insert:
     - id: eli-web-routes
-      name: '@ceiicelia/dsh-eli-mode/lib/web-routes.js'
+      name: 'dsh-eli-mode/lib/web-routes.js'
 
 - insert:
     - id: eli-mode
-      name: '@ceiicelia/dsh-eli-mode'
+      name: 'dsh-eli-mode'

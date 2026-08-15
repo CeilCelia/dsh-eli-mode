@@ -1,4 +1,4 @@
-// @ceiicelia/dsh-eli-mode host 入口：
+// dsh-eli-mode host 入口：
 // 1) 注册 eli-mode 设置命名空间（「插件-插件配置」管理页的后端）；
 // 2) 把包内 presets/ 同步到 ~/.dsh/.agent-presets/（预设选择器即可用，升级自动更新）；
 // 3) 首次运行把包内 wiki/ 与 ui/ 播种到 ~/.dsh/eli-knowledge/（已有内容绝不覆盖）。

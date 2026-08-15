@@ -1,5 +1,5 @@
 {
-  "name": "@ceiicelia/dsh-eli-mode",
+  "name": "dsh-eli-mode",
   "version": "0.1.0",
   "description": "知识库驱动的 Agent 预设",
   "type": "module",

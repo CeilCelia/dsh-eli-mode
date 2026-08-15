@@ -16,7 +16,7 @@ Eli Mode 是 [DeepSeek Harness](https://github.com/deepseek-ai/dsh) 的一个 Ag
 需要 DSH 0.1.0-rc.6 或更新版本（Node.js >= 22）。
 
 ```sh
-npx -y @deepseek-ai/dsh plugin --profile web add @ceiicelia/dsh-eli-mode
+npx -y @deepseek-ai/dsh plugin --profile web add dsh-eli-mode
 ```
 
 重启 `dsh web` 后：
@@ -70,7 +70,7 @@ eli-mode:
 ## 卸载
 
 ```sh
-npx -y @deepseek-ai/dsh plugin --profile web remove @ceiicelia/dsh-eli-mode
+npx -y @deepseek-ai/dsh plugin --profile web remove dsh-eli-mode
 ```
 
 重启 `dsh web`。预设文件与知识库数据保留在 `~/.dsh/` 下，可手动删除。
@@ -79,7 +79,7 @@ npx -y @deepseek-ai/dsh plugin --profile web remove @ceiicelia/dsh-eli-mode
 
 ```
 packages/
-└── eli-mode/            # 核心包（npm: @ceiicelia/dsh-eli-mode）
+└── eli-mode/            # 核心包（npm: dsh-eli-mode）
     ├── lib/             # host 模块（kb 服务、网页路由、设置命名空间、预设同步）+ 客户端（管理卡片 + 可选润色）
     ├── presets/         # agent 预设（自动同步到 ~/.dsh/.agent-presets/）
     ├── wiki/            # 默认知识库内容（首次运行播种）
