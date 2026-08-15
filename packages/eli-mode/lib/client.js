@@ -142,38 +142,52 @@ window.__ModuleLoader__.load({
 			async read() {
 				let response;
 				try { response = await this.api.settings.describe({}); } catch { this.store.set({ ...this.store.getSnapshot(), status: 'unavailable' }); return; }
-				if (!response.result.ok || this.disposed) { this.store.set({ ...this.store.getSnapshot(), status: 'unavailable' }); return; }
-				this.accept(response.result.value);
+				// host 各版本返回结构不一（{result:{ok,value}} 或顶层 {ok,value}），统一兼容
+				const body = response && typeof response === 'object' && response.result ? response.result : response;
+				if (!body || !body.ok || this.disposed) { this.store.set({ ...this.store.getSnapshot(), status: 'unavailable' }); return; }
+				this.accept(body.value);
 			}
 			async write(op) {
 				const revision = this.getSnapshot().revision;
 				let response;
 				try { response = await this.api.settings.mutate({ ns: this.spec.namespace, ops: [op], ...(revision === void 0 ? {} : { expectedRevision: revision }) }); }
 				catch { await this.read(); return; }
-				if (!response.result.ok || this.disposed) { await this.read(); return; }
-				this.accept(response.result.value);
+				const body = response && typeof response === 'object' && response.result ? response.result : response;
+				if (!body || !body.ok || this.disposed) { await this.read(); return; }
+				this.accept(body.value);
 			}
 			accept(view) {
-				this.store.set({ status: 'ready', value: view.value, base: view.base, user: view.user, writable: view.writable, revision: view.revision, mode: 'host' });
+				this.store.set({ status: 'ready', value: view.value, base: view.base, user: view.user, writable: view.writable === void 0 ? true : view.writable, revision: view.revision, mode: 'host' });
 			}
 		}
 		function createCompatScope({ primary, namespace, fetchFn }) {
 			const fallback = fetchFn === void 0 ? void 0 : new BridgeScopeController(createBridgeApi(fetchFn), { namespace });
+			let stuck = false; // 须先于 makeMiniStore(project()) 声明（project 引用 stuck）
 			const store = makeMiniStore(project());
 			let fallbackStarted = false;
 			const publish = () => store.set(project());
 			const startFallback = () => { if (fallback === void 0 || fallbackStarted) return; fallbackStarted = true; fallback.load(); };
 			const needFallback = () => primary.getSnapshot().status !== 'ready';
+			// 4s 兜底：主通道卡 loading 且桥接也不 ready → 停止无限加载，暴露为 unavailable
+			if (typeof setTimeout === 'function') {
+				setTimeout(() => {
+					if (!stuck && primary.getSnapshot().status !== 'ready' && store.getSnapshot().status !== 'ready') {
+						stuck = true;
+						publish();
+					}
+				}, 4000);
+			}
 			function project() {
 				const p = primary.getSnapshot();
-				if (p.status === 'ready' || fallback === void 0) return p;
-				const b = fallback.getSnapshot();
-				if (b.status === 'ready') return b;
+				if (p.status === 'ready') return p;
+				const b = fallback === void 0 ? void 0 : fallback.getSnapshot();
+				if (b !== void 0 && b.status === 'ready') return b;
+				if (stuck) return { ...p, status: 'unavailable' };
 				if (p.status === 'unavailable') {
-					if (b.status === 'loading') return { ...p, status: 'loading' };
+					if (b !== void 0 && b.status === 'loading') return { ...p, status: 'loading' };
 					return p;
 				}
-				// primary 仍 loading、桥接未 ready → 保持 loading（一旦任一侧 ready 即切换）
+				// primary 仍 loading、桥接未 ready → 保持 loading（桥接 ready 或超时兜底会切换）
 				return p;
 			}
 			primary.subscribe(() => { publish(); if (needFallback()) startFallback(); });
@@ -646,10 +660,11 @@ window.__ModuleLoader__.load({
 						const settingsScope = ctx.get('settingsScope');
 						if (settingsScope && typeof settingsScope.bind === 'function') {
 							// 官方 scope 优先；命名空间未被官方白名单放行时（不可用），
-							// 回退到本插件内置的 loopback 设置桥（开箱即用，无需改白名单）
+							// 回退到本插件内置的 loopback 设置桥（开箱即用，无需改白名单）。
+							// 桥接恒启用：host 侧 /eli-kb/api/settings/* 路由本身 loopback-only，
+							// 非 loopback 来源会被 host 拒绝 → unavailable → 卡片降级 notExposed，无安全风险。
 							const primary = settingsScope.bind({ namespace: 'eli-mode' });
-							const loopback = ctx.get('connection') !== void 0 && ctx.get('connection').isLoopback === true;
-							const scope = createCompatScope({ primary, namespace: 'eli-mode', fetchFn: loopback ? ((input, init) => fetch(input, init)) : void 0 });
+							const scope = createCompatScope({ primary, namespace: 'eli-mode', fetchFn: ((input, init) => fetch(input, init)) });
 							const controller = new EliModeCardController(scope);
 							slots.inject('settings.plugin.item', () => slots.register({
 								name: 'settings.plugin.item',

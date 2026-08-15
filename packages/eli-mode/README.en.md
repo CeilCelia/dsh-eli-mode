@@ -1,4 +1,4 @@
-# Eli Mode · Agent preset & knowledge base for DSH
+# Eli Mode · DSH Agent Preset
 
 English | [中文](README.md) · [GitHub](https://github.com/CeilCelia/dsh-eli-mode)
 
@@ -7,8 +7,6 @@ English | [中文](README.md) · [GitHub](https://github.com/CeilCelia/dsh-eli-m
 Eli Mode is an agent preset for [DeepSeek Harness (DSH)](https://github.com/deepseek-ai/dsh)
 built around **wiki-driven long-term memory and skills**, on an extremely minimal
 Harness setup.
-
-![Eli Mode main UI](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_main.png)
 
 ## Features
 
@@ -22,13 +20,12 @@ Harness setup.
 - **UI polish (submodule eli-polish)**: adds a KB tab, token stats, tool-call collapsing
   and character art on top of the default theme. **Off by default** — tick "UI polish" in the
   Eli Mode config page to enable it (no restart needed).
-
 ## Install
 
 Requires DSH 0.1.0-rc.6 or newer (Node.js >= 22) and pnpm (`npm install -g pnpm` — the `dsh plugin` command depends on it).
 
 ```sh
-npx -y @deepseek-ai/dsh plugin --profile web add dsh-eli-mode
+npx -y @deepseek-ai/dsh plugin --profile web add dsh-eli-mode@latest
 ```
 
 After restarting `dsh web`:
@@ -44,7 +41,6 @@ After restarting `dsh web`:
 
 After upgrading the plugin (`dsh plugin --profile web update`), restarting re-syncs
 `~/.dsh/.agent-presets/eli-mode/` from the bundled preset.
-
 ## Configuration
 
 ### Management page (recommended)
@@ -73,7 +69,6 @@ eli-mode:
   kbIndex: true
   polish: false   # true = enable UI polish
 ```
-
 ## Using the knowledge base
 
 ![Knowledge base page](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_kb.png)
@@ -84,7 +79,6 @@ eli-mode:
 - The index (`index.md`) is regenerated automatically — no manual maintenance
 - With polish on, the composer shows token usage; when a `DEEPSEEK_API_KEY` is configured
   (dsh credentials service or environment variable) it also shows the account balance
-
 ## Uninstall
 
 ```sh
@@ -92,7 +86,6 @@ npx -y @deepseek-ai/dsh plugin --profile web remove dsh-eli-mode
 ```
 
 Restart `dsh web`. Preset files and KB data remain under `~/.dsh/` for manual cleanup.
-
 ## Project layout
 
 ```
@@ -103,7 +96,6 @@ packages/
     ├── wiki/            # Default knowledge base (seeded on first run)
     └── ui/              # KB web page and character art
 ```
-
 ## License & attribution
 
 - Code: Apache-2.0 (see LICENSE)

@@ -6,21 +6,18 @@
 
 Eli Mode 是 [DeepSeek Harness](https://github.com/deepseek-ai/dsh) 的一个 Agent 预设，**以wiki 驱动的长期记忆和技能为核心**，配合极度精简的Harness搭建。
 
-![Eli Mode 主界面](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_main.png)
-
 ## 特性
 
 - **wiki驱动**：跨会话持久化的卡帕西式wiki，代替记忆和skill模块，**你没看错，用wiki代替memory和skill，谁用谁知道**；条目间用 `[[id]]` 互链，自动维护正/反向链接与树形目录
 - **极度精简的Harness**：仅必要工具，注入的system prompt和context都进行了针对性修改
 - **管理页**：设置 → 插件-插件配置 → Eli Mode，图形化编辑人格 prompt 与知识库注入 prompt
 - **界面润色**：子模块eli-polish，在默认主题上增加知识库标签页、token 统计、工具调用折叠以及立绘，该模块默认关闭，在Eli Mode插件配置页勾选「界面润色」即可启动
-
 ## 安装
 
 需要 DSH 0.1.0-rc.6 或更新版本（Node.js >= 22），以及 pnpm（`npm install -g pnpm`，`dsh plugin` 命令依赖它）。
 
 ```sh
-npx -y @deepseek-ai/dsh plugin --profile web add dsh-eli-mode
+npx -y @deepseek-ai/dsh plugin --profile web add dsh-eli-mode@latest
 ```
 
 重启 `dsh web` 后：
@@ -33,7 +30,6 @@ npx -y @deepseek-ai/dsh plugin --profile web add dsh-eli-mode
 ### 预设升级
 
 插件升级（`dsh plugin --profile web update`）后重启，`~/.dsh/.agent-presets/eli-mode/` 会自动同步为包内版本。
-
 ## 配置
 
 ### 管理页（推荐）
@@ -62,7 +58,6 @@ eli-mode:
   kbIndex: true
   polish: false   # true = 启用界面润色
 ```
-
 ## 知识库用法
 
 ![知识库页面](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_kb.png)
@@ -72,7 +67,6 @@ eli-mode:
 - 存储位置：`~/.dsh/eli-knowledge/wiki/`（可用环境变量 `ELI_KB_ROOT` 覆盖）
 - 目录页（`index.md`）由系统自动生成，无需手工维护
 - 开启润色后，输入框下方会显示 token 用量；配置了 `DEEPSEEK_API_KEY`（dsh 凭据服务或环境变量）时还会显示账户余额
-
 ## 卸载
 
 ```sh
@@ -80,7 +74,6 @@ npx -y @deepseek-ai/dsh plugin --profile web remove dsh-eli-mode
 ```
 
 重启 `dsh web`。预设文件与知识库数据保留在 `~/.dsh/` 下，可手动删除。
-
 ## 项目结构
 
 ```
@@ -91,7 +84,6 @@ packages/
     ├── wiki/            # 默认知识库内容（首次运行播种）
     └── ui/              # 知识库网页与立绘
 ```
-
 ## 许可与署名
 
 - 代码：Apache-2.0（见 LICENSE）
