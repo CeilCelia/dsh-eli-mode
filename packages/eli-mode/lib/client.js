@@ -163,18 +163,22 @@ window.__ModuleLoader__.load({
 			let fallbackStarted = false;
 			const publish = () => store.set(project());
 			const startFallback = () => { if (fallback === void 0 || fallbackStarted) return; fallbackStarted = true; fallback.load(); };
+			const needFallback = () => primary.getSnapshot().status !== 'ready';
 			function project() {
 				const p = primary.getSnapshot();
 				if (p.status === 'ready' || fallback === void 0) return p;
-				if (p.status === 'loading') return p;
 				const b = fallback.getSnapshot();
 				if (b.status === 'ready') return b;
-				if (b.status === 'loading') return { ...p, status: 'loading' };
+				if (p.status === 'unavailable') {
+					if (b.status === 'loading') return { ...p, status: 'loading' };
+					return p;
+				}
+				// primary 仍 loading、桥接未 ready → 保持 loading（一旦任一侧 ready 即切换）
 				return p;
 			}
-			primary.subscribe(() => { publish(); if (primary.getSnapshot().status === 'unavailable') startFallback(); });
+			primary.subscribe(() => { publish(); if (needFallback()) startFallback(); });
 			if (fallback !== void 0) fallback.subscribe(publish);
-			if (primary.getSnapshot().status === 'unavailable') startFallback();
+			if (needFallback()) startFallback();
 			return {
 				getSnapshot: () => store.getSnapshot(),
 				subscribe: (l) => store.subscribe(l),
