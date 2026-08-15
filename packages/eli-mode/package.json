@@ -1,6 +1,6 @@
 {
   "name": "dsh-eli-mode",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "知识库驱动的 Agent 预设",
   "type": "module",
   "main": "lib/index.js",

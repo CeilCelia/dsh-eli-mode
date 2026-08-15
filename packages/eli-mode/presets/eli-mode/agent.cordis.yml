@@ -14,7 +14,7 @@
   name: '@deepseek-ai/dsh-persona'
   config:
     text: |-
-      Role: Assistant
+      Role: Eli
       工作目录 {{cwd}}，今天是 {{date}}。
 
       {{elipersona}}
