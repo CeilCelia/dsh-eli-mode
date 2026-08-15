@@ -4,9 +4,9 @@
 # - 人设：专业、严谨的个人助手；知识库（wiki）驱动记忆。
 # - 工具：文件、Shell、Web 搜索、目标、子代理(spawn)、后台任务、澄清提问。
 # - 砍掉：计划模式、技能库(skill)、工作流、todo、ralph、fork、codex、claude-code、bash。
-# - 知识库：host 侧 @eli/eli-mode/lib/kb.js 提供服务（跨会话共享 + 网页读写），
+# - 知识库：host 侧 @ceilcelia/dsh-eli-mode/lib/kb.js 提供服务（跨会话共享 + 网页读写），
 #   这里只挂工具与注入段；会话只注入 wiki 目录页，细节用 kb_read / kb_search 按需取用。
-# - 压缩：原生阈值(0.8/0.16/8192) + 专属中文摘要器 @eli/eli-mode/lib/compaction.js。
+# - 压缩：原生阈值(0.8/0.16/8192) + 专属中文摘要器 @ceilcelia/dsh-eli-mode/lib/compaction.js。
 
 # ── identity ────────────────────────────────────────────────────────────────
 
@@ -83,17 +83,17 @@
 # ── knowledge base tools（消费 host 侧 eliKb 服务）─────────────────────────
 
 - id: kb-tools
-  name: '@eli/eli-mode/lib/kb-tools.js'
+  name: '@ceilcelia/dsh-eli-mode/lib/kb-tools.js'
 
 # ── wiki index injection（会话只注入目录页 + {{date}} 变量）────────────────
 
 - id: wiki-index
-  name: '@eli/eli-mode/lib/wiki-index.js'
+  name: '@ceilcelia/dsh-eli-mode/lib/wiki-index.js'
 
 # ── eli-mode 管理页变量（人格正文取设置命名空间，见插件-插件配置 → eli-mode）──
 
 - id: eli-mode
-  name: '@eli/eli-mode/lib/eli-mode.js'
+  name: '@ceilcelia/dsh-eli-mode/lib/eli-mode.js'
 
 # ── compaction（原生阈值 + 专属中文摘要器）─────────────────────────────────
 
@@ -105,7 +105,7 @@
     toolResultPruner: true
   config:
     - id: eli-compaction
-      name: '@eli/eli-mode/lib/compaction.js'
+      name: '@ceilcelia/dsh-eli-mode/lib/compaction.js'
 
     - id: command-compact
       name: '@deepseek-ai/dsh-command-compact'

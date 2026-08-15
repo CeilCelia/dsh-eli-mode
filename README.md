@@ -1,6 +1,6 @@
 # Eli Mode · Agent preset & knowledge base for DSH
 
-English | [中文](README.zh.md)
+English | [中文](README.zh.md) · [GitHub](https://github.com/CeilCelia/dsh-eli-mode)
 
 Eli Mode is an agent preset for [DeepSeek Harness (DSH)](https://github.com/deepseek-ai/dsh)
 built around **wiki-driven long-term memory and skills**, on an extremely minimal
@@ -24,7 +24,7 @@ Harness setup.
 Requires DSH 0.1.0-rc.6 or newer (Node.js >= 22).
 
 ```sh
-npx -y @deepseek-ai/dsh plugin --profile web add @eli/eli-mode
+npx -y @deepseek-ai/dsh plugin --profile web add @ceilcelia/dsh-eli-mode
 ```
 
 After restarting `dsh web`:
@@ -86,7 +86,7 @@ eli-mode:
 ## Uninstall
 
 ```sh
-npx -y @deepseek-ai/dsh plugin --profile web remove @eli/eli-mode
+npx -y @deepseek-ai/dsh plugin --profile web remove @ceilcelia/dsh-eli-mode
 ```
 
 Restart `dsh web`. Preset files and KB data remain under `~/.dsh/` for manual cleanup.
@@ -95,7 +95,7 @@ Restart `dsh web`. Preset files and KB data remain under `~/.dsh/` for manual cl
 
 ```
 packages/
-└── eli-mode/            # Core package (npm: @eli/eli-mode)
+└── eli-mode/            # Core package (npm: @ceilcelia/dsh-eli-mode)
     ├── lib/             # Host modules (KB service, web routes, settings namespace, preset sync) + client (management card + optional polish)
     ├── presets/         # Agent preset (auto-synced to ~/.dsh/.agent-presets/)
     ├── wiki/            # Default knowledge base (seeded on first run)

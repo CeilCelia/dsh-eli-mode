@@ -1,6 +1,6 @@
 # Eli Mode · DSH Agent 预设与知识库
 
-[English](README.md) | 中文
+[English](README.md) | 中文 · [GitHub](https://github.com/CeilCelia/dsh-eli-mode)
 
 Eli Mode 是 [DeepSeek Harness](https://github.com/deepseek-ai/dsh) 的一个 Agent 预设，**以wiki 驱动的长期记忆和技能为核心**，配合极度精简的Harness搭建。
 
@@ -16,7 +16,7 @@ Eli Mode 是 [DeepSeek Harness](https://github.com/deepseek-ai/dsh) 的一个 Ag
 需要 DSH 0.1.0-rc.6 或更新版本（Node.js >= 22）。
 
 ```sh
-npx -y @deepseek-ai/dsh plugin --profile web add @eli/eli-mode
+npx -y @deepseek-ai/dsh plugin --profile web add @ceilcelia/dsh-eli-mode
 ```
 
 重启 `dsh web` 后：
@@ -70,7 +70,7 @@ eli-mode:
 ## 卸载
 
 ```sh
-npx -y @deepseek-ai/dsh plugin --profile web remove @eli/eli-mode
+npx -y @deepseek-ai/dsh plugin --profile web remove @ceilcelia/dsh-eli-mode
 ```
 
 重启 `dsh web`。预设文件与知识库数据保留在 `~/.dsh/` 下，可手动删除。
@@ -79,7 +79,7 @@ npx -y @deepseek-ai/dsh plugin --profile web remove @eli/eli-mode
 
 ```
 packages/
-└── eli-mode/            # 核心包（npm: @eli/eli-mode）
+└── eli-mode/            # 核心包（npm: @ceilcelia/dsh-eli-mode）
     ├── lib/             # host 模块（kb 服务、网页路由、设置命名空间、预设同步）+ 客户端（管理卡片 + 可选润色）
     ├── presets/         # agent 预设（自动同步到 ~/.dsh/.agent-presets/）
     ├── wiki/            # 默认知识库内容（首次运行播种）

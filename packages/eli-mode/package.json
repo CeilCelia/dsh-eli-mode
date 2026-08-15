@@ -1,7 +1,7 @@
 {
-  "name": "@eli/eli-mode",
+  "name": "@ceilcelia/dsh-eli-mode",
   "version": "0.1.0",
-  "description": "Eli Mode for DeepSeek Harness (DSH): a knowledge-base-driven agent preset with wiki service, web UI, and a settings management page. One command install: npx -y @deepseek-ai/dsh plugin --profile web add @eli/eli-mode.",
+  "description": "Eli Mode for DeepSeek Harness (DSH): a knowledge-base-driven agent preset with wiki service, web UI, and a settings management page. One command install: npx -y @deepseek-ai/dsh plugin --profile web add @ceilcelia/dsh-eli-mode.",
   "type": "module",
   "main": "lib/index.js",
   "exports": {
@@ -44,7 +44,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-name/dsh-eli-mode"
+    "url": "https://github.com/CeilCelia/dsh-eli-mode"
   },
   "keywords": [
     "dsh",

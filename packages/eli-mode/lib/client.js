@@ -1,5 +1,5 @@
 window.__ModuleLoader__.load({
-	id: "@eli/eli-mode",
+	id: "@ceilcelia/dsh-eli-mode",
 	factory: (require) => {
 		var module = { exports: {} };
 		var exports = module.exports;
@@ -395,10 +395,10 @@ window.__ModuleLoader__.load({
 
 		function applyPolishCss() {
 			if (typeof document === 'undefined') return;
-			const tagId = '@eli/eli-mode/polish.css';
+			const tagId = '@ceilcelia/dsh-eli-mode/polish.css';
 			if (document.querySelector("style[data-plugin-css='" + tagId + "']") === null) {
 				const tag = document.createElement('style');
-				tag.dataset.plugin = '@eli/eli-mode';
+				tag.dataset.plugin = '@ceilcelia/dsh-eli-mode';
 				tag.dataset.pluginCss = tagId;
 				tag.textContent = POLISH_CSS;
 				document.head.appendChild(tag);
@@ -406,7 +406,7 @@ window.__ModuleLoader__.load({
 		}
 		function removePolishCss() {
 			if (typeof document === 'undefined') return;
-			const tag = document.querySelector("style[data-plugin-css='" + '@eli/eli-mode/polish.css' + "']");
+			const tag = document.querySelector("style[data-plugin-css='" + '@ceilcelia/dsh-eli-mode/polish.css' + "']");
 			if (tag !== null) tag.remove();
 		}
 		/** 更换立绘后重挂 CSS（no-store 保证重新拉取新图）。 */
