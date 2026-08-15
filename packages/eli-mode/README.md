@@ -13,7 +13,7 @@ Eli Mode 是 [DeepSeek Harness](https://github.com/deepseek-ai/dsh) 的一个 Ag
 
 ## 安装
 
-需要 DSH 0.1.0-rc.6 或更新版本（Node.js >= 22）。
+需要 DSH 0.1.0-rc.6 或更新版本（Node.js >= 22），以及 pnpm（`npm install -g pnpm`，`dsh plugin` 命令依赖它）。
 
 ```sh
 npx -y @deepseek-ai/dsh plugin --profile web add dsh-eli-mode

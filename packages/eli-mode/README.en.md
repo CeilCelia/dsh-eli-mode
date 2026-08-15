@@ -21,7 +21,7 @@ Harness setup.
 
 ## Install
 
-Requires DSH 0.1.0-rc.6 or newer (Node.js >= 22).
+Requires DSH 0.1.0-rc.6 or newer (Node.js >= 22) and pnpm (`npm install -g pnpm` — the `dsh plugin` command depends on it).
 
 ```sh
 npx -y @deepseek-ai/dsh plugin --profile web add dsh-eli-mode
