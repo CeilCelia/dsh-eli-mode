@@ -1,0 +1,57 @@
+{
+  "name": "@eli/eli-mode",
+  "version": "0.1.0",
+  "description": "Eli Mode for DeepSeek Harness (DSH): a knowledge-base-driven agent preset with wiki service, web UI, and a settings management page. One command install: npx -y @deepseek-ai/dsh plugin --profile web add @eli/eli-mode.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json",
+    "./presets/*": "./presets/*"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [],
+      "platform": "web"
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-settings": "^0.1.0-rc.6",
+    "@deepseek-ai/schemastery": "^3.18.0",
+    "js-yaml": "^4.1.0"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "files": [
+    "lib",
+    "presets",
+    "wiki",
+    "ui",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-name/dsh-eli-mode"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "agent",
+    "preset",
+    "knowledge-base",
+    "wiki"
+  ]
+}

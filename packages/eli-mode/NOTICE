@@ -1,0 +1,22 @@
+# NOTICE — Third-party art
+
+`packages/eli-mode/ui/art-left.webp` (main-UI character art) and
+`packages/eli-mode/ui/art-right.webp` (wiki character art) are derivative works of the
+"Whale Girl" (鲸鱼娘) character, included under CC BY-NC-SA 4.0
+(Attribution-NonCommercial-ShareAlike). This is a **non-commercial** license: any
+commercial use requires separate permission.
+
+Full attribution chain (per CC BY-NC-SA ShareAlike requirements):
+
+1. **上善 (Shangshan)** — original creator of the whale-girl character (initial creation).
+   - Pixiv: https://www.pixiv.net/users/62155430
+   - Bilibili: https://b23.tv/8h5L4xz
+2. **zipzip / ZipZipPipe** — secondary creation: the maid whale-girl redesign adding
+   DeepSeek elements, based on 上善's whale-girl (generated with GPT Image 2).
+   - Pixiv: https://www.pixiv.net/users/18604994
+   - Bilibili: https://b23.tv/Pnw6nG8
+3. **Small-tailqwq** (dsh-external/dsh-deep-whale) — the DeepSeek-element secondary
+   design material used in this package (tertiary derivative).
+   - Source: https://github.com/Small-tailqwq/dsh-deep-whale
+
+All other code in this repository is licensed under Apache-2.0 (see LICENSE).

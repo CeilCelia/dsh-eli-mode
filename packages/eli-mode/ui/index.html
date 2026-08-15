@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eli · 知识库 / Knowledge Base</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f0f0f0;
+    --paper-deep: #e8e8f0;
+    --paper-lift: #f7f7fa;
+    --ink: #303050;
+    --ink-soft: #505070;
+    --ink-faint: #707090;
+    --rule: rgba(48, 48, 80, 0.14);
+    --rule-strong: rgba(48, 48, 80, 0.26);
+    --vermilion: #6070a0;
+    --vermilion-soft: rgba(96, 112, 160, 0.12);
+    --vermilion-deep: #4a5a8a;
+    --shadow: 0 1px 2px rgba(48, 48, 80, 0.08), 0 12px 40px -18px rgba(48, 48, 80, 0.3);
+    --font-display: 'Cormorant Garamond', 'Noto Serif SC', 'Songti SC', serif;
+    --font-body: 'Noto Sans SC', 'PingFang SC', sans-serif;
+    --font-serif: 'Noto Serif SC', 'Songti SC', serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #202038;
+      --paper-deep: #1a1a2e;
+      --paper-lift: #282844;
+      --ink: #e8e8f0;
+      --ink-soft: #b0b0cc;
+      --ink-faint: #9090b0;
+      --rule: rgba(96, 112, 176, 0.18);
+      --rule-strong: rgba(96, 112, 176, 0.28);
+      --vermilion: #6070b0;
+      --vermilion-soft: rgba(96, 112, 176, 0.14);
+      --vermilion-deep: #7d8fcd;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 48px -20px rgba(0, 0, 0, 0.7);
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: var(--font-body);
+    background: var(--paper);
+    color: var(--ink);
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+  /* 纸面肌理 */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(168, 60, 46, 0.05), transparent 60%),
+      radial-gradient(900px 500px at 110% 10%, rgba(60, 80, 70, 0.05), transparent 55%),
+      linear-gradient(180deg, var(--paper-deep), var(--paper) 30%);
+  }
+  /* 噪点 */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 5; pointer-events: none; opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.25 0 0 0 0 0.22 0 0 0 0 0.19 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .shell {
+    position: relative; z-index: 1;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  /* ── 头牌 ─────────────────────────────── */
+  header {
+    grid-column: 1 / -1;
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 22px 34px 16px;
+    border-bottom: 1px solid var(--rule);
+    animation: rise 0.6s cubic-bezier(.2,.7,.2,1) both;
+  }
+  .brand { display: flex; align-items: baseline; gap: 12px; }
+  .brand-name {
+    font-family: var(--font-display);
+    font-size: 26px; font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .brand-name .dot { color: var(--vermilion); }
+  .mode-badge {
+    font-size: 11px; letter-spacing: 0.22em;
+    color: var(--ink-faint);
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    padding: 4px 14px;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+  }
+  .mode-badge.live { color: var(--vermilion); border-color: var(--vermilion); }
+
+  /* ── 左侧：检索与目录 ─────────────────── */
+  aside {
+    border-right: 1px solid var(--rule);
+    padding: 22px 22px 24px;
+    overflow-y: auto;
+    display: flex; flex-direction: column; gap: 18px;
+    animation: rise 0.6s 0.08s cubic-bezier(.2,.7,.2,1) both;
+  }
+  .search-wrap { position: relative; }
+  .search-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 8px 2px 10px;
+    font-family: var(--font-body);
+    font-size: 14px; font-weight: 300;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.25s ease;
+  }
+  .search-input::placeholder { color: var(--ink-faint); }
+  .search-input:focus { border-color: var(--vermilion); }
+
+  .tree { display: flex; flex-direction: column; gap: 2px; }
+  .tree-folder { display: flex; align-items: center; gap: 8px; padding: 6px 8px; cursor: pointer; border-radius: 6px; }
+  .tree-folder:hover { background: var(--vermilion-soft); }
+  .tree-folder .chev { font-size: 10px; color: var(--ink-faint); transition: transform 0.25s ease; width: 12px; }
+  .tree-folder.open .chev { transform: rotate(90deg); }
+  .tree-folder .folder-name {
+    font-family: var(--font-serif);
+    font-size: 12.5px; letter-spacing: 0.14em; color: var(--ink-soft);
+  }
+  .tree-folder .folder-name::before { content: '❖'; font-size: 9px; margin-right: 7px; color: var(--vermilion); opacity: 0.7; }
+  .tree-children { margin-left: 16px; padding-left: 10px; border-left: 1px solid var(--rule); display: flex; flex-direction: column; gap: 1px; }
+  .tree-entry {
+    padding: 7px 8px; border-radius: 6px; cursor: pointer;
+    font-family: var(--font-serif);
+    font-size: 13.5px; color: var(--ink);
+    transition: all 0.18s ease;
+    position: relative;
+  }
+  .tree-entry:hover { background: var(--vermilion-soft); padding-left: 13px; }
+  .tree-entry.active { color: var(--vermilion); font-weight: 500; }
+  .tree-entry .entry-id {
+    display: block; font-family: var(--font-body);
+    font-size: 10.5px; color: var(--ink-faint);
+    margin-top: 1px; letter-spacing: 0.04em;
+  }
+  .tree-empty { font-size: 12.5px; color: var(--ink-faint); padding: 10px 8px; font-family: var(--font-serif); }
+
+  .hits { display: flex; flex-direction: column; gap: 6px; }
+  .hit {
+    padding: 10px 12px; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--rule);
+    background: var(--paper-lift);
+    transition: all 0.2s ease;
+    animation: rise 0.35s ease both;
+  }
+  .hit:hover { border-color: var(--vermilion); transform: translateY(-1px); box-shadow: var(--shadow); }
+  .hit-title { font-family: var(--font-serif); font-size: 14px; font-weight: 500; }
+  .hit-excerpt { margin-top: 3px; font-size: 12px; color: var(--ink-faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* ── 右侧：正文区 ─────────────────────── */
+  main {
+    padding: 40px 52px 48px;
+    overflow-y: auto;
+    animation: rise 0.6s 0.14s cubic-bezier(.2,.7,.2,1) both;
+    position: relative;
+  }
+  .placeholder {
+    height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+    color: var(--ink-faint); text-align: center;
+  }
+  .placeholder .seal {
+    width: 74px; height: 74px; border-radius: 50%;
+    display: grid; place-items: center;
+    border: 1px solid var(--rule-strong);
+    font-family: var(--font-serif);
+    font-size: 26px; color: var(--vermilion);
+    transition: transform 0.4s cubic-bezier(.2,.7,.2,1);
+  }
+  .placeholder:hover .seal { transform: rotate(-8deg) scale(1.04); }
+  .placeholder .ph-text { font-family: var(--font-serif); font-size: 14px; letter-spacing: 0.28em; }
+
+  .view { display: flex; flex-direction: column; gap: 14px; max-width: 760px; animation: rise 0.4s ease both; }
+  .view-breadcrumb {
+    font-size: 11.5px; letter-spacing: 0.14em; color: var(--ink-faint);
+    font-family: var(--font-body);
+  }
+  .view-breadcrumb .crumb { color: var(--vermilion); }
+  .view-title {
+    font-family: var(--font-serif);
+    font-size: 34px; font-weight: 600; line-height: 1.25;
+    letter-spacing: 0.01em;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 16px;
+  }
+  .view-meta { font-size: 11.5px; color: var(--ink-faint); letter-spacing: 0.06em; font-family: var(--font-body); }
+  .view-content {
+    font-family: var(--font-serif);
+    font-size: 14.5px; line-height: 1.95; color: var(--ink);
+    white-space: pre-wrap;
+    background: var(--paper-lift);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 22px 26px;
+    box-shadow: var(--shadow);
+  }
+  .wikilink {
+    background: none; border: none; cursor: pointer;
+    font-family: var(--font-serif); font-size: 14.5px;
+    color: var(--vermilion);
+    padding: 0 3px; position: relative;
+    transition: color 0.15s ease;
+  }
+  .wikilink::after {
+    content: ''; position: absolute; left: 3px; right: 3px; bottom: 1px;
+    height: 1px; background: var(--vermilion);
+    transform: scaleX(0.35); transform-origin: left;
+    transition: transform 0.25s cubic-bezier(.2,.7,.2,1);
+  }
+  .wikilink:hover::after { transform: scaleX(1); }
+
+  .links-panel { display: flex; flex-direction: column; gap: 8px; }
+  .links-head {
+    font-size: 11px; letter-spacing: 0.26em; color: var(--ink-faint);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .links-head::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .link-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .link-chip {
+    font-family: var(--font-serif); font-size: 13px;
+    padding: 6px 14px; border-radius: 999px;
+    border: 1px solid var(--rule-strong);
+    background: transparent; color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .link-chip:hover { border-color: var(--vermilion); color: var(--vermilion); transform: translateY(-1px); box-shadow: var(--shadow); }
+  .link-chip::before { content: '↳ '; color: var(--vermilion); font-size: 12px; }
+  .link-chip.back::before { content: '↲ '; }
+
+  .view-toolbar { display: flex; gap: 10px; margin-top: 6px; }
+  .btn {
+    font-family: var(--font-body); font-size: 13px; letter-spacing: 0.06em;
+    padding: 8px 20px; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--rule-strong);
+    background: transparent; color: var(--ink);
+    transition: all 0.2s ease;
+  }
+  .btn:hover { border-color: var(--vermilion); color: var(--vermilion); }
+  .btn-primary {
+    background: var(--vermilion); border-color: var(--vermilion); color: #faf6ec;
+    box-shadow: 0 4px 18px -6px rgba(168, 60, 46, 0.5);
+  }
+  .btn-primary:hover { background: var(--vermilion-deep); color: #faf6ec; transform: translateY(-1px); }
+  .btn-danger { border-color: var(--vermilion); color: var(--vermilion); }
+
+  /* 编辑器 */
+  .editor { display: flex; flex-direction: column; gap: 16px; max-width: 760px; animation: rise 0.4s ease both; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field-label { font-size: 11px; letter-spacing: 0.24em; color: var(--ink-faint); }
+  .field-input {
+    background: transparent; border: none;
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 8px 2px;
+    font-family: var(--font-serif); font-size: 15px; color: var(--ink);
+    outline: none; transition: border-color 0.25s ease;
+  }
+  .field-input:focus { border-color: var(--vermilion); }
+  .field-textarea {
+    background: var(--paper-lift); border: 1px solid var(--rule);
+    border-radius: 10px; padding: 16px 18px;
+    min-height: 300px; resize: vertical;
+    font-family: var(--font-serif); font-size: 14px; line-height: 1.9; color: var(--ink);
+    outline: none; transition: border-color 0.25s ease;
+  }
+  .field-textarea:focus { border-color: var(--vermilion); }
+  .field-hint { font-size: 11px; color: var(--ink-faint); letter-spacing: 0.04em; }
+
+  .notice {
+    font-size: 12px; color: var(--vermilion);
+    border: 1px solid var(--vermilion-soft);
+    background: var(--vermilion-soft);
+    border-radius: 8px; padding: 8px 14px;
+    animation: rise 0.3s ease both;
+  }
+  .notice.info { color: var(--ink-soft); border-color: var(--rule); background: transparent; }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-thumb { background: var(--rule-strong); border-radius: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="brand">
+      <span class="brand-name" id="brandName"></span>
+    </div>
+    <span class="mode-badge" id="modeBadge">…</span>
+  </header>
+
+  <aside id="sidebar">
+    <div class="search-wrap">
+      <input class="search-input" id="searchInput" type="text" placeholder="" autocomplete="off">
+    </div>
+    <div class="tree" id="tree"></div>
+  </aside>
+
+  <main id="main"></main>
+</div>
+
+<script>
+'use strict';
+
+/* ── 语言（i18n）：默认跟随 dsh 界面语言（路由注入 __KB_LANG__），
+   可手动切换（localStorage 持久化，优先级最高）── */
+const STRINGS = {
+  zh: {
+    brand: 'Eli · 知识库', searchPlaceholder: '检索条目…', loading: '加载中…', root: '根',
+    empty: '知识库为空 — 点击右上角「+ 新建」添加第一篇', kbPath: '知识库 / ', links: '关联', backlinks: '反向关联',
+    edit: '编辑', idLabel: 'ID / 路径', idHintNew: '留空则由标题生成', idHintRename: '修改 id 会创建新条目（原名保留）',
+    titleLabel: '标题', bodyLabel: '正文', bodyHint: 'Markdown 正文；用 [[条目id]] 建立知识点关联，保存后自动解析正 / 反向链接',
+    save: '保存', delete: '删除', back: '返回',
+    readFail: '读取失败', titleRequired: '标题不能为空', saveFail: '保存失败', saved: '已保存',
+    deleteFail: '删除失败', deleted: '已删除', connected: '● 已连接', demoMode: '◌ 演示模式', toggle: 'EN',
+  },
+  en: {
+    brand: 'Eli · Knowledge Base', searchPlaceholder: 'Search entries…', loading: 'Loading…', root: 'root',
+    empty: 'Knowledge base is empty — click "+ New" at the top right to add the first entry', kbPath: 'Knowledge Base / ', links: 'Links', backlinks: 'Backlinks',
+    edit: 'Edit', idLabel: 'ID / path', idHintNew: 'Leave empty to derive from the title', idHintRename: 'Changing the id creates a new entry (the original is kept)',
+    titleLabel: 'Title', bodyLabel: 'Body', bodyHint: 'Markdown body; link entries with [[entry-id]] — forward/back links resolve on save',
+    save: 'Save', delete: 'Delete', back: 'Back',
+    readFail: 'Read failed', titleRequired: 'Title is required', saveFail: 'Save failed', saved: 'Saved',
+    deleteFail: 'Delete failed', deleted: 'Deleted', connected: '● Connected', demoMode: '◌ Demo mode', toggle: '中文',
+  },
+};
+function kbDetectLang() {
+  if (typeof window !== 'undefined' && (window.__KB_LANG__ === 'zh' || window.__KB_LANG__ === 'en')) return window.__KB_LANG__;
+  const nav = (typeof navigator !== 'undefined' && navigator.language ? navigator.language : '').toLowerCase();
+  if (nav.startsWith('zh')) return 'zh';
+  if (nav.startsWith('en')) return 'en';
+  return 'zh';
+}
+let lang = kbDetectLang();
+function tr(key) { const d = STRINGS[lang] || STRINGS.zh; return d[key] !== undefined ? d[key] : key; }
+
+/* ═══════════════════════════════════════════
+   API 层：优先连真实服务（/eli-kb/api/*），
+   连不上则进入演示模式（本地镜像数据）。
+   ═══════════════════════════════════════════ */
+
+const API_BASE = '/eli-kb/api';
+let mode = 'demo';
+
+/* —— 演示镜像：与默认知识库一致（正式样本） —— */
+const demoDb = {
+  'getting-started': { id: 'getting-started', title: '使用指南', content: '# 使用指南\n\n本知识库（wiki）是智能体的长期记忆与工作参考。所有条目均为 Markdown 文件，存放在 ~/.dsh/eli-knowledge/wiki/ 下。\n\n- 会话只注入目录页，细节用 kb_read / kb_search 按需取用。\n- 正文中用 [[id]] 双链引用其他条目。\n- 网页端：浏览器打开 /eli-kb 浏览、编辑、搜索。', rawLinks: [] },
+  'memory-guide': { id: 'memory-guide', title: '记忆管理规范', content: '# 记忆管理规范\n\n智能体的记忆以知识库条目形式持久化。\n\n- 写入：用户偏好、项目决策、工作流程、验证过的事实。\n- 不写：一次性过程信息、敏感凭据、过期内容。\n- 格式：id 用小写路径，正文 # 标题开头，条目间 [[双链]] 关联。\n- 节奏：会话结束时随手 kb_write；定期清理失效条目。', rawLinks: ['getting-started'] }
+};
+
+function resolveTarget(raw) {
+  if (demoDb[raw]) return raw;
+  const base = String(raw).trim().toLowerCase().split('/').pop();
+  for (const id of Object.keys(demoDb)) {
+    if (id.split('/').pop() === base) return id;
+  }
+  return null;
+}
+function parseLinks(content) {
+  const out = [];
+  const re = /\[\[([^\]]+)\]\]/g;
+  let m;
+  while ((m = re.exec(content || '')) !== null) out.push(m[1].trim());
+  return out;
+}
+function entryLinks(entry) {
+  const links = [];
+  for (const raw of parseLinks(entry.content)) {
+    const resolved = resolveTarget(raw);
+    if (resolved) links.push({ id: resolved, title: demoDb[resolved].title });
+  }
+  return links;
+}
+function entryBacklinks(id) {
+  const out = [];
+  for (const key of Object.keys(demoDb)) {
+    if (key === id) continue;
+    if (entryLinks(demoDb[key]).some((l) => l.id === id)) out.push({ id: key, title: demoDb[key].title });
+  }
+  return out;
+}
+function demoTree() {
+  const root = { name: '', path: '', entries: [], children: {} };
+  for (const id of Object.keys(demoDb)) {
+    const parts = id.split('/');
+    let node = root;
+    for (let i = 0; i < parts.length - 1; i++) {
+      const seg = parts[i];
+      if (!node.children[seg]) node.children[seg] = { name: seg, path: parts.slice(0, i + 1).join('/'), entries: [], children: {} };
+      node = node.children[seg];
+    }
+    node.entries.push({ id, title: demoDb[id].title });
+  }
+  const toJson = (n) => ({ name: n.name, path: n.path, entries: n.entries.slice().sort((a, b) => a.id.localeCompare(b.id)), children: Object.keys(n.children).sort().map((k) => toJson(n.children[k])) });
+  return toJson(root);
+}
+
+async function call(method, args) {
+  if (mode === 'live') {
+    const res = await fetch(API_BASE + '/' + method, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(args || {})
+    });
+    return res.json();
+  }
+  /* demo 分支 */
+  if (method === 'tree') return { ok: true, tree: demoTree() };
+  if (method === 'read') {
+    const e = demoDb[args.id];
+    if (!e) return { ok: false, error: 'not found: ' + args.id };
+    return { ok: true, entry: { id: e.id, title: e.title, content: e.content, links: entryLinks(e), backlinks: entryBacklinks(e.id) } };
+  }
+  if (method === 'write') {
+    const title = (args.title || '').trim();
+    const norm = String(args.id || '').trim().toLowerCase().replace(/\.md$/i, '');
+    const id = norm || title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-/]/g, '') || ('entry-' + Date.now().toString(36));
+    demoDb[id] = { id, title, content: (args.content || '').trim() };
+    return { ok: true, id };
+  }
+  if (method === 'remove') {
+    delete demoDb[args.id];
+    return { ok: true, removed: true };
+  }
+  if (method === 'search') {
+    const q = String(args.query || '').toLowerCase();
+    const hits = Object.keys(demoDb)
+      .filter((id) => (demoDb[id].title + '\n' + demoDb[id].content).toLowerCase().includes(q))
+      .slice(0, 30)
+      .map((id) => ({ id, title: demoDb[id].title, excerpt: demoDb[id].content.replace(/^#.*$/m, '').replace(/\[\[[^\]]+\]\]/g, '$1').replace(/\s+/g, ' ').trim().slice(0, 120) }));
+    return { ok: true, hits };
+  }
+  return { ok: false, error: 'unknown method' };
+}
+
+/* ═══════════════════════════════════════════
+   界面
+   ═══════════════════════════════════════════ */
+
+const $ = (sel) => document.querySelector(sel);
+const treeEl = $('#tree');
+const mainEl = $('#main');
+const searchEl = $('#searchInput');
+const badgeEl = $('#modeBadge');
+
+const state = {
+  tree: null,
+  open: {},
+  entry: null,
+  editing: null,
+  hits: null,
+  notice: ''
+};
+
+function esc(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function el(tag, cls, text) {
+  const node = document.createElement(tag);
+  if (cls) node.className = cls;
+  if (text !== undefined && text !== null) node.textContent = text;
+  return node;
+}
+
+function renderContentMarkup(content) {
+  const frag = document.createDocumentFragment();
+  const re = /\[\[([^\]]+)\]\]/g;
+  let last = 0, m;
+  const parts = [];
+  while ((m = re.exec(content)) !== null) {
+    parts.push({ text: content.slice(last, m.index) });
+    parts.push({ link: m[1].trim() });
+    last = m.index + m[0].length;
+  }
+  parts.push({ text: content.slice(last) });
+  for (const p of parts) {
+    if (p.link) {
+      const btn = el('button', 'wikilink', p.link);
+      btn.addEventListener('click', () => openEntry(resolveTarget(p.link) || p.link));
+      frag.appendChild(btn);
+    } else if (p.text) {
+      frag.appendChild(document.createTextNode(p.text));
+    }
+  }
+  return frag;
+}
+
+async function openEntry(id) {
+  const res = await call('read', { id });
+  if (!res.ok) { setNotice(res.error || tr('readFail'), true); return; }
+  state.entry = res.entry;
+  state.editing = null;
+  state.hits = null;
+  searchEl.value = '';
+  renderTree();
+  renderMain();
+}
+
+function startEdit(entry) {
+  state.editing = { id: entry ? entry.id : '', title: entry ? entry.title : '', content: entry ? entry.content.replace(/^# [^\n]*\n?/, '').trim() : '', originalId: entry ? entry.id : null };
+  state.entry = null;
+  renderMain();
+}
+
+async function saveEdit() {
+  const e = state.editing;
+  if (!e || !e.title.trim()) { setNotice(tr('titleRequired'), true); return; }
+  const res = await call('write', { id: e.id, title: e.title, content: e.content });
+  if (!res.ok) { setNotice(res.error || tr('saveFail'), true); return; }
+  state.editing = null;
+  await refreshTree();
+  await openEntry(res.id);
+  setNotice(tr('saved') + '：' + res.id);
+}
+
+async function removeEntry() {
+  if (!state.editing) return;
+  const res = await call('remove', { id: state.editing.id });
+  if (!res.ok) { setNotice(res.error || tr('deleteFail'), true); return; }
+  setNotice(tr('deleted') + '：' + state.editing.id);
+  state.editing = null;
+  state.entry = null;
+  await refreshTree();
+  renderMain();
+}
+
+function setNotice(text, isError) {
+  state.notice = text;
+  renderMain();
+  if (isError) setTimeout(() => { if (state.notice === text) { state.notice = ''; renderMain(); } }, 3200);
+}
+
+/* —— 目录树（递归渲染） —— */
+function renderTree() {
+  treeEl.innerHTML = '';
+  if (!state.tree) { treeEl.appendChild(el('div', 'tree-empty', tr('loading'))); return; }
+  treeEl.appendChild(renderSubTree(state.tree));
+}
+
+function renderSubTree(node) {
+  const frag = document.createDocumentFragment();
+  for (const entry of node.entries || []) {
+    const row = el('div', 'tree-entry' + (state.entry && state.entry.id === entry.id ? ' active' : ''));
+    row.appendChild(el('span', null, entry.title));
+    row.appendChild(el('span', 'entry-id', entry.id));
+    row.addEventListener('click', () => openEntry(entry.id));
+    frag.appendChild(row);
+  }
+  for (const child of node.children || []) {
+    const key = child.path || '(root)';
+    const open = !!state.open[key];
+    const folder = el('div', 'tree-folder' + (open ? ' open' : ''));
+    folder.appendChild(el('span', 'chev', '▸'));
+    folder.appendChild(el('span', 'folder-name', child.name || tr('root')));
+    folder.addEventListener('click', () => { state.open[key] = !state.open[key]; renderTree(); });
+    frag.appendChild(folder);
+    if (open) {
+      const wrap = el('div', 'tree-children');
+      wrap.appendChild(renderSubTree(child));
+      frag.appendChild(wrap);
+    }
+  }
+  return frag;
+}
+
+/* —— 主区 —— */
+function renderMain() {
+  mainEl.innerHTML = '';
+  if (state.notice) {
+    const n = el('div', 'notice', state.notice);
+    mainEl.appendChild(n);
+  }
+  if (state.editing) { renderEditor(); return; }
+  if (state.entry) { renderView(); return; }
+  if (state.hits && state.hits.length > 0) {
+    const box = el('div', 'hits');
+    for (const h of state.hits) {
+      const hit = el('div', 'hit');
+      hit.appendChild(el('div', 'hit-title', h.title));
+      hit.appendChild(el('div', 'hit-excerpt', h.id + (h.excerpt ? ' — ' + h.excerpt : '')));
+      hit.addEventListener('click', () => openEntry(h.id));
+      box.appendChild(hit);
+    }
+    mainEl.appendChild(box);
+    return;
+  }
+  const ph = el('div', 'placeholder');
+  const text = el('div', 'ph-text', tr('empty'));
+  ph.appendChild(text);
+  mainEl.appendChild(ph);
+}
+
+function renderView() {
+  const e = state.entry;
+  const view = el('div', 'view');
+
+  const bread = el('div', 'view-breadcrumb', tr('kbPath'));
+  const crumb = el('span', 'crumb', e.id);
+  bread.appendChild(crumb);
+  view.appendChild(bread);
+
+  view.appendChild(el('div', 'view-title', e.title));
+  view.appendChild(el('div', 'view-meta', 'id  ' + e.id));
+
+  const content = el('div', 'view-content');
+  content.appendChild(renderContentMarkup(e.content));
+  view.appendChild(content);
+
+  if (e.links && e.links.length > 0) {
+    const panel = el('div', 'links-panel');
+    panel.appendChild(el('div', 'links-head', tr('links')));
+    const chips = el('div', 'link-chips');
+    for (const l of e.links) {
+      const chip = el('button', 'link-chip', l.title);
+      chip.addEventListener('click', () => openEntry(l.id));
+      chips.appendChild(chip);
+    }
+    panel.appendChild(chips);
+    view.appendChild(panel);
+  }
+  if (e.backlinks && e.backlinks.length > 0) {
+    const panel = el('div', 'links-panel');
+    panel.appendChild(el('div', 'links-head', tr('backlinks')));
+    const chips = el('div', 'link-chips');
+    for (const l of e.backlinks) {
+      const chip = el('button', 'link-chip back', l.title);
+      chip.addEventListener('click', () => openEntry(l.id));
+      chips.appendChild(chip);
+    }
+    panel.appendChild(chips);
+    view.appendChild(panel);
+  }
+
+  const toolbar = el('div', 'view-toolbar');
+  const editBtn = el('button', 'btn btn-primary', tr('edit'));
+  editBtn.addEventListener('click', () => startEdit(e));
+  toolbar.appendChild(editBtn);
+  view.appendChild(toolbar);
+
+  mainEl.appendChild(view);
+}
+
+function renderEditor() {
+  const e = state.editing;
+  const editor = el('div', 'editor');
+
+  const fieldId = el('div', 'field');
+  fieldId.appendChild(el('label', 'field-label', tr('idLabel')));
+  const idInput = el('input', 'field-input');
+  idInput.value = e.id || '';
+  idInput.placeholder = 'research/my-topic';
+  idInput.addEventListener('input', () => { e.id = idInput.value; });
+  fieldId.appendChild(idInput);
+  fieldId.appendChild(el('div', 'field-hint', e.originalId ? tr('idHintRename') : tr('idHintNew')));
+  editor.appendChild(fieldId);
+
+  const fieldTitle = el('div', 'field');
+  fieldTitle.appendChild(el('label', 'field-label', tr('titleLabel')));
+  const titleInput = el('input', 'field-input');
+  titleInput.value = e.title || '';
+  titleInput.addEventListener('input', () => { e.title = titleInput.value; });
+  fieldTitle.appendChild(titleInput);
+  editor.appendChild(fieldTitle);
+
+  const fieldBody = el('div', 'field');
+  fieldBody.appendChild(el('label', 'field-label', tr('bodyLabel')));
+  const bodyArea = el('textarea', 'field-textarea');
+  bodyArea.value = e.content || '';
+  bodyArea.addEventListener('input', () => { e.content = bodyArea.value; });
+  fieldBody.appendChild(bodyArea);
+  fieldBody.appendChild(el('div', 'field-hint', tr('bodyHint')));
+  editor.appendChild(fieldBody);
+
+  const toolbar = el('div', 'view-toolbar');
+  const saveBtn = el('button', 'btn btn-primary', tr('save'));
+  saveBtn.addEventListener('click', saveEdit);
+  toolbar.appendChild(saveBtn);
+  if (e.originalId) {
+    const delBtn = el('button', 'btn btn-danger', tr('delete'));
+    delBtn.addEventListener('click', removeEntry);
+    toolbar.appendChild(delBtn);
+  }
+  const backBtn = el('button', 'btn', tr('back'));
+  backBtn.addEventListener('click', () => { state.editing = null; renderMain(); });
+  toolbar.appendChild(backBtn);
+  editor.appendChild(toolbar);
+
+  mainEl.appendChild(editor);
+}
+
+/* —— 搜索 —— */
+let searchTimer = null;
+searchEl.addEventListener('input', () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(async () => {
+    const q = searchEl.value.trim();
+    if (!q) {
+      state.hits = null;
+      renderMain();
+      return;
+    }
+    const res = await call('search', { query: q });
+    if (res.ok) { state.hits = res.hits; state.entry = null; state.editing = null; renderMain(); }
+  }, 220);
+});
+
+async function refreshTree() {
+  const res = await call('tree');
+  if (res.ok) state.tree = res.tree;
+}
+
+/* —— 启动：探测服务 —— */
+async function boot() {
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 2500);
+    const res = await fetch(API_BASE + '/tree', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}', signal: ctrl.signal });
+    clearTimeout(t);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.ok) {
+        mode = 'live';
+        badgeEl.textContent = tr('connected');
+        badgeEl.classList.add('live');
+      }
+    }
+  } catch (e) { /* 静默降级到演示 */ }
+  if (mode === 'demo') {
+    badgeEl.textContent = tr('demoMode');
+  }
+  await refreshTree();
+  renderTree();
+  // 打开即自动选中第一篇（深度优先）
+  const findFirst = (node) => {
+    if (node && node.entries && node.entries.length > 0) return node.entries[0].id;
+    for (const child of (node && node.children) || []) {
+      const hit = findFirst(child);
+      if (hit) return hit;
+    }
+    return null;
+  };
+  const first = findFirst(state.tree);
+  if (first) await openEntry(first);
+  else renderMain();
+}
+
+// ── 语言初始化：品牌名 / 标签页标题 / 搜索占位 / 切换按钮 ──
+(function initLang() {
+  const brand = document.getElementById('brandName');
+  if (brand) brand.textContent = tr('brand');
+  document.title = tr('brand') + ' — ' + (lang === 'zh' ? 'Knowledge Base' : '知识库');
+  const search = document.getElementById('searchInput');
+  if (search) search.placeholder = tr('searchPlaceholder');
+})();
+
+boot();
+</script>
+<img src="/eli-kb/art/right" alt="" style="position:fixed;right:14px;bottom:0;width:300px;height:auto;pointer-events:none;z-index:2;opacity:.95;filter:drop-shadow(0 0 22px rgba(96,112,176,.35));">
+</body>
+</html>
