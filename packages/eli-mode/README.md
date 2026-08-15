@@ -95,4 +95,4 @@ packages/
 2. **zipzip / ZipZipPipe**（[Pixiv](https://www.pixiv.net/users/18604994) · [Bilibili](https://b23.tv/Pnw6nG8)）—— 加入 DeepSeek 元素的女仆鲸鱼娘二次设计（二创，生成模型 GPT Image 2）
 3. **Small-tailqwq**（[dsh-deep-whale](https://github.com/Small-tailqwq/dsh-deep-whale)）—— 素材的 DeepSeek 元素再设计整理（三创）
 
-两位画师的立绘是这套界面的灵魂，特此致谢。
+上述创作者的立绘与整理是这套界面的灵魂，特此致谢。

@@ -117,4 +117,4 @@ packages/
 3. **Small-tailqwq** ([dsh-deep-whale](https://github.com/Small-tailqwq/dsh-deep-whale)) —
    the DeepSeek-element material curation (tertiary derivative)
 
-Special thanks to the two illustrators — their art gives this UI its soul.
+Special thanks to the creators above — their art and curation give this UI its soul.
