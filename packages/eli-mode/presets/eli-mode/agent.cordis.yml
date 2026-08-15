@@ -1,7 +1,7 @@
 # Eli Mode — 通用科研助理预设。
 #
 # 设计要点：
-# - 人设：专业、严谨的科研助理与个人助手；知识库（wiki）驱动记忆。
+# - 人设：专业、严谨的个人助手；知识库（wiki）驱动记忆。
 # - 工具：文件、Shell、Web 搜索、目标、子代理(spawn)、后台任务、澄清提问。
 # - 砍掉：计划模式、技能库(skill)、工作流、todo、ralph、fork、codex、claude-code、bash。
 # - 知识库：host 侧 @eli/eli-mode/lib/kb.js 提供服务（跨会话共享 + 网页读写），
