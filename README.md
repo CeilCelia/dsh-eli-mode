@@ -1,4 +1,4 @@
-# Eli Mode · DSH Agent 预设与知识库
+# Eli Mode · DSH Agent 预设
 
 [English](README.en.md) | 中文 · [GitHub](https://github.com/CeilCelia/dsh-eli-mode)
 
