@@ -6,6 +6,8 @@
 
 Eli Mode 是 [DeepSeek Harness](https://github.com/deepseek-ai/dsh) 的一个 Agent 预设，**以wiki 驱动的长期记忆和技能为核心**，配合极度精简的Harness搭建。
 
+![Eli Mode 主界面](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_main.png)
+
 ## 特性
 
 - **wiki驱动**：跨会话持久化的卡帕西式wiki，代替记忆和skill模块，**你没看错，用wiki代替memory和skill，谁用谁知道**；条目间用 `[[id]]` 互链，自动维护正/反向链接与树形目录
@@ -62,6 +64,8 @@ eli-mode:
 ```
 
 ## 知识库用法
+
+![知识库页面](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_kb.png)
 
 - 网页：`http://<dsh地址>/eli-kb`（浏览 / 编辑 / 搜索）
 - 对话中：`kb_search 关键词` → `kb_read 条目id` → 需要留存时 `kb_write 标题 + 内容`

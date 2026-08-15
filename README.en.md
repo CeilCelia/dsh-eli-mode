@@ -8,6 +8,8 @@ Eli Mode is an agent preset for [DeepSeek Harness (DSH)](https://github.com/deep
 built around **wiki-driven long-term memory and skills**, on an extremely minimal
 Harness setup.
 
+![Eli Mode main UI](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_main.png)
+
 ## Features
 
 - **Wiki-driven memory**: a persistent, cross-session wiki that replaces the memory and
@@ -73,6 +75,8 @@ eli-mode:
 ```
 
 ## Using the knowledge base
+
+![Knowledge base page](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_kb.png)
 
 - Web: `http://<dsh-host>/eli-kb` (browse / edit / search; the page follows the dsh UI language)
 - In chat: `kb_search <query>` → `kb_read <id>` → `kb_write <title> + <content>` to persist
