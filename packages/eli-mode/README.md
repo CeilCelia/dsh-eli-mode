@@ -2,6 +2,8 @@
 
 [English](README.en.md) | 中文 · [GitHub](https://github.com/CeilCelia/dsh-eli-mode)
 
+[![npm version](https://img.shields.io/npm/v/dsh-eli-mode)](https://www.npmjs.com/package/dsh-eli-mode)
+
 Eli Mode 是 [DeepSeek Harness](https://github.com/deepseek-ai/dsh) 的一个 Agent 预设，**以wiki 驱动的长期记忆和技能为核心**，配合极度精简的Harness搭建。
 
 ## 特性

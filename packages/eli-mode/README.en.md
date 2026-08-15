@@ -2,6 +2,8 @@
 
 English | [中文](README.md) · [GitHub](https://github.com/CeilCelia/dsh-eli-mode)
 
+[![npm version](https://img.shields.io/npm/v/dsh-eli-mode)](https://www.npmjs.com/package/dsh-eli-mode)
+
 Eli Mode is an agent preset for [DeepSeek Harness (DSH)](https://github.com/deepseek-ai/dsh)
 built around **wiki-driven long-term memory and skills**, on an extremely minimal
 Harness setup.
