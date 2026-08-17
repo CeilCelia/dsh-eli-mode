@@ -42,7 +42,7 @@ npx -y @deepseek-ai/dsh plugin --profile web add dsh-eli-mode@latest
 
 **下载**：[GitHub Releases](https://github.com/CeilCelia/dsh-eli-mode/releases)（DSH Eli Mode v0.1.8 · Windows x64）
 
-![打包版界面](https://cdn.jsdelivr.net/gh/CeilCelia/dsh-eli-mode@main/assets/figure_package.png)
+![打包版界面](https://ceilcelia.github.io/dsh-eli-mode/assets/figure_package.png)
 
 - 基于 [anywhere-labs/deepseek-harness-desktop](https://github.com/anywhere-labs/deepseek-harness-desktop)（MIT）二次开发，其本身是官方 [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness)（MIT）的社区桌面版
 - 修改点：内置 dsh-eli-mode 并默认启用、eli-mode.polish 默认开、同源新标签页（/eli-kb）在应用内子窗口打开
@@ -81,7 +81,7 @@ eli-mode:
 
 ## 知识库用法
 
-![知识库页面](https://cdn.jsdelivr.net/gh/CeilCelia/dsh-eli-mode@main/assets/figure_kb.png)
+![知识库页面](https://ceilcelia.github.io/dsh-eli-mode/assets/figure_kb.png)
 
 
 
