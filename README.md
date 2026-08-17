@@ -9,10 +9,14 @@ Eli Mode 是 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)
 ## 特性
 
 - **wiki驱动**：跨会话持久化的卡帕西式wiki，代替记忆和skill模块，**你没看错，用wiki代替memory和skill，谁用谁知道**；条目间用 `[[id]]` 互链，自动维护正/反向链接与树形目录
+
 - **极度精简的Harness**：仅必要工具，注入的system prompt和context都进行了针对性修改
+
 - **管理页**：设置 → 插件-插件配置 → Eli Mode，图形化编辑人格 prompt 与知识库注入 prompt
+
 - **界面润色**：子模块eli-polish，在默认主题上增加知识库标签页、token 统计、工具调用折叠以及立绘，该模块默认关闭，在Eli Mode插件配置页勾选「界面润色」即可启动
-## 安装
+  
+  ## 安装
 
 需要 DSH 0.1.0-rc.6 或更新版本（Node.js >= 22），以及 pnpm（`npm install -g pnpm`，`dsh plugin` 命令依赖它）。
 
@@ -22,14 +26,30 @@ npx -y @deepseek-ai/dsh plugin --profile web add dsh-eli-mode@latest
 
 重启 `dsh web` 后：
 
-1. 新建会话，预设选择器选择 **Eli Mode**；
+1. 新建会话，预设选择器选择 Eli Mode；
 2. 首次运行会自动在 `~/.dsh/eli-knowledge/` 创建默认知识库（已有内容不会被覆盖）；
-3. 设置 → 插件-插件配置 → Eli Mode：编辑人格 prompt 与知识库注入 prompt（新会话生效），
-   或勾选「界面润色」及修改立绘（免刷新生效）。
+3. 设置 → 插件-插件配置 → Eli Mode：编辑人格 prompt 与知识库注入 prompt（新会话生效），或勾选「界面润色」及修改立绘（免刷新生效）。
+
+此外，本插件已被 dsh-market 收录：如果安装了 dsh-market，可直接在 设置 → 插件市场 搜索 `eli-mode` 安装本插件。
 
 ### 预设升级
 
 插件升级（`dsh plugin --profile web update`）后重启，`~/.dsh/.agent-presets/eli-mode/` 会自动同步为包内版本。
+
+## 桌面版（Windows）
+
+开箱即用的 Windows 桌面版：内置本插件、默认开启界面润色，首次运行自动初始化，新会话默认 Eli Mode 预设。
+
+**下载**：[GitHub Releases](https://github.com/CeilCelia/dsh-eli-mode/releases)（DSH Eli Mode v0.1.10 · Windows x64）
+
+![打包版界面](https://ceilcelia.github.io/dsh-eli-mode/assets/figure_package.png)
+
+- 基于 [anywhere-labs/deepseek-harness-desktop](https://github.com/anywhere-labs/deepseek-harness-desktop)（MIT）二次开发，其本身是官方 [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness)（MIT）的社区桌面版
+- 修改点：内置 dsh-eli-mode 并默认启用、eli-mode.polish 默认开、同源新标签页（/eli-kb）在应用内子窗口打开
+- 分发物内含完整 LICENSE / NOTICE（MIT + Apache-2.0 + 立绘 CC BY-NC-SA 署名），详见桌面版 
+  esources/
+- 特别致谢 upstream 作者的桌面壳工作；**本桌面版并非 DeepSeek 官方产品**
+
 ## 配置
 
 ### 管理页（推荐）
@@ -58,18 +78,24 @@ eli-mode:
   kbIndex: true
   polish: false   # true = 启用界面润色
 ```
+
 ## 知识库用法
 
-![知识库页面](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_kb.png)
+![知识库页面](https://ceilcelia.github.io/dsh-eli-mode/assets/figure_kb.png)
 
-![打包版界面](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_package.png)
+
 
 - 网页：`http://<dsh地址>/eli-kb`（浏览 / 编辑 / 搜索）
+
 - 对话中：`kb_search 关键词` → `kb_read 条目id` → 需要留存时 `kb_write 标题 + 内容`
+
 - 存储位置：`~/.dsh/eli-knowledge/wiki/`（可用环境变量 `ELI_KB_ROOT` 覆盖）
+
 - 目录页（`index.md`）由系统自动生成，无需手工维护
+
 - 开启润色后，输入框下方会显示 token 用量；配置了 `DEEPSEEK_API_KEY`（dsh 凭据服务或环境变量）时还会显示账户余额
-## 卸载
+  
+  ## 卸载
 
 ```sh
 npx -y @deepseek-ai/dsh plugin --profile web remove dsh-eli-mode
@@ -77,32 +103,23 @@ npx -y @deepseek-ai/dsh plugin --profile web remove dsh-eli-mode
 
 重启 `dsh web`。预设文件与知识库数据保留在 `~/.dsh/` 下，可手动删除。
 
-## 桌面版（Windows）
-
-开箱即用的 Windows 桌面版（内置本插件、默认开启界面润色，首次运行自动初始化）：
-
-- **下载**：[GitHub Releases](https://github.com/CeilCelia/dsh-eli-mode/releases)（DSH Eli Mode v0.1.8，Windows x64）
-
-- 基于 [anywhere-labs/deepseek-harness-desktop](https://github.com/anywhere-labs/deepseek-harness-desktop)（MIT）二次开发，其本身是官方 [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness)（MIT）的社区桌面版
-- 修改点：内置 dsh-eli-mode 并默认启用、`eli-mode.polish` 默认开、同源新标签页（/eli-kb）在应用内子窗口打开
-- 分发物内含完整 LICENSE / NOTICE（MIT + Apache-2.0 + 立绘 CC BY-NC-SA 署名），详见桌面版 `resources/`
-- 特别致谢 upstream 作者的桌面壳工作；**本桌面版并非 DeepSeek 官方产品**
-
 ## 项目结构
 
 ```
 packages/
-└── eli-mode/            # 核心包（npm: dsh-eli-mode）
-    ├── lib/             # host 模块（kb 服务、网页路由、设置命名空间、预设同步）+ 客户端（管理卡片 + 可选润色）
-    ├── presets/         # agent 预设（自动同步到 ~/.dsh/.agent-presets/）
-    ├── wiki/            # 默认知识库内容（首次运行播种）
-    └── ui/              # 知识库网页与立绘
+└── eli-mode/                # 核心包（npm: dsh-eli-mode）
+    ├── lib/                 # host 模块：kb 服务、网页路由、设置命名空间、预设同步、prompt-trim（精简官方引导）+ 客户端
+    ├── presets/             # agent 预设（自动同步到 ~/.dsh/.agent-presets/）
+    ├── wiki/                # 默认知识库内容（首次运行播种；mem/ 记忆 + skill/ 技能 分层）
+    ├── ui/                  # 知识库网页与立绘
+    ├── cordis.patch.yml     # host patch（bundle 挂载、tool-fs 回归 global 层供 prompt-trim 遮蔽）
+    └── docs/                # settings 白名单文档
 ```
+
 ## 许可与署名
 
 - 代码：Apache-2.0（见 LICENSE）
 - 立绘（`ui/art-left.webp` 主界面 + `ui/art-right.webp` wiki 界面）为「鲸鱼娘」角色衍生创作，**CC BY-NC-SA 4.0（非商用）**，完整署名链见 [NOTICE](packages/eli-mode/NOTICE)：
-
 1. **上善**（[Pixiv](https://www.pixiv.net/users/62155430) · [Bilibili](https://b23.tv/8h5L4xz)）——「鲸鱼娘」角色形象原作者（一创）
 2. **zipzip / ZipZipPipe**（[Pixiv](https://www.pixiv.net/users/18604994) · [Bilibili](https://b23.tv/Pnw6nG8)）—— 加入 DeepSeek 元素的女仆鲸鱼娘二次设计（二创，生成模型 GPT Image 2）
 3. **Small-tailqwq**（[dsh-deep-whale](https://github.com/Small-tailqwq/dsh-deep-whale)）—— 素材的 DeepSeek 元素再设计整理（三创）

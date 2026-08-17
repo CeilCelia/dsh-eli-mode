@@ -12,3 +12,9 @@
 - insert:
     - id: eli-mode
       name: 'dsh-eli-mode'
+
+# 撤销 web-app 对 base 工具行的 disabled：tool-fs / tool-fs-search 回归 global 层，
+# 使其 tool:* 引导 section 注册在 global 层，preset 层由 prompt-trim 同名遮蔽（跨层遮蔽不冲突）。
+- id: tool-fs
+
+- id: tool-fs-search

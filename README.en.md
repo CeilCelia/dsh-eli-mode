@@ -8,6 +8,7 @@ Eli Mode is an agent preset for [DeepSeek Harness (DSH)](https://github.com/deep
 built around **wiki-driven long-term memory and skills**, on an extremely minimal
 Harness setup.
 
+
 ## Features
 
 - **Wiki-driven memory**: a persistent, cross-session wiki that replaces the memory and
@@ -30,17 +31,40 @@ npx -y @deepseek-ai/dsh plugin --profile web add dsh-eli-mode@latest
 
 After restarting `dsh web`:
 
-1. Open a new session and pick the **Eli Mode** preset;
+1. Open a new session and pick the Eli Mode preset;
 2. On first run a default knowledge base is created under `~/.dsh/eli-knowledge/`
    (existing content is never overwritten);
 3. Settings → Plugin Configuration → Eli Mode: edit the persona prompt and the KB
-   injection prompt (**takes effect on new sessions**), or tick "UI polish" and swap the
-   character art (**takes effect immediately**).
+   injection prompt (takes effect on new sessions), or tick "UI polish" and swap the
+   character art (takes effect immediately).
+
+Additionally, this plugin is listed on **dsh-market**: if you have dsh-market
+installed, you can install it by searching `eli-mode` in Settings → Plugin Market.
 
 ### Preset updates
 
 After upgrading the plugin (`dsh plugin --profile web update`), restarting re-syncs
 `~/.dsh/.agent-presets/eli-mode/` from the bundled preset.
+## Desktop edition (Windows)
+
+An out-of-the-box Windows desktop build: bundles this plugin, enables the
+polish/skin by default, auto-initializes on first run, and defaults new
+sessions to the Eli Mode preset.
+
+**Download**: [GitHub Releases](https://github.com/CeilCelia/dsh-eli-mode/releases) (DSH Eli Mode v0.1.10, Windows x64)
+
+![Desktop edition](https://ceilcelia.github.io/dsh-eli-mode/assets/figure_package.png)
+
+- Built on [anywhere-labs/deepseek-harness-desktop](https://github.com/anywhere-labs/deepseek-harness-desktop) (MIT),
+  itself a community desktop shell for the official
+  [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) (MIT)
+- Changes: bundles dsh-eli-mode (auto-mounted on first run), eli-mode.polish
+  defaults to on, same-origin new tabs (/eli-kb) open in an in-app child window
+- The distribution carries full LICENSE / NOTICE (MIT + Apache-2.0 + CC BY-NC-SA
+  art attribution) under the desktop esources/
+- Thanks to the upstream shell authors; **this desktop build is not an official
+  DeepSeek product**
+
 ## Configuration
 
 ### Management page (recommended)
@@ -71,9 +95,9 @@ eli-mode:
 ```
 ## Using the knowledge base
 
-![Knowledge base page](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_kb.png)
+![Knowledge base page](https://ceilcelia.github.io/dsh-eli-mode/assets/figure_kb.png)
 
-![Desktop edition](https://raw.githubusercontent.com/CeilCelia/dsh-eli-mode/main/assets/figure_package.png)
+
 
 - Web: `http://<dsh-host>/eli-kb` (browse / edit / search; the page follows the dsh UI language)
 - In chat: `kb_search <query>` → `kb_read <id>` → `kb_write <title> + <content>` to persist
@@ -89,32 +113,17 @@ npx -y @deepseek-ai/dsh plugin --profile web remove dsh-eli-mode
 
 Restart `dsh web`. Preset files and KB data remain under `~/.dsh/` for manual cleanup.
 
-## Desktop edition (Windows)
-
-An out-of-the-box Windows desktop build (bundles this plugin, enables the
-
-- **Download**: [GitHub Releases](https://github.com/CeilCelia/dsh-eli-mode/releases) (DSH Eli Mode v0.1.8, Windows x64)
-polish/skin by default, auto-initializes on first run):
-
-- Built on [anywhere-labs/deepseek-harness-desktop](https://github.com/anywhere-labs/deepseek-harness-desktop) (MIT),
-  itself a community desktop shell for the official
-  [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) (MIT)
-- Changes: bundles dsh-eli-mode (auto-mounted on first run), `eli-mode.polish`
-  defaults to on, same-origin new tabs (/eli-kb) open in an in-app child window
-- The distribution carries full LICENSE / NOTICE (MIT + Apache-2.0 + CC BY-NC-SA
-  art attribution) under the desktop `resources/`
-- Thanks to the upstream shell authors; **this desktop build is not an official
-  DeepSeek product**
-
 ## Project layout
 
 ```
 packages/
-└── eli-mode/            # Core package (npm: dsh-eli-mode)
-    ├── lib/             # Host modules (KB service, web routes, settings namespace, preset sync) + client (management card + optional polish)
-    ├── presets/         # Agent preset (auto-synced to ~/.dsh/.agent-presets/)
-    ├── wiki/            # Default knowledge base (seeded on first run)
-    └── ui/              # KB web page and character art
+└── eli-mode/                # Core package (npm: dsh-eli-mode)
+    ├── lib/                 # Host modules: KB service, web routes, settings namespace, preset sync, prompt-trim (slims official guidance) + client
+    ├── presets/             # Agent preset (auto-synced to ~/.dsh/.agent-presets/)
+    ├── wiki/                # Default knowledge base (seeded on first run; mem/ memory + skill/ skills)
+    ├── ui/                  # KB web page and character art
+    ├── cordis.patch.yml     # Host patch (bundle mount; tool-fs back to global layer for prompt-trim shadowing)
+    └── docs/                # Settings whitelist docs
 ```
 ## License & attribution
 

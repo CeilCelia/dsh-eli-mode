@@ -8,12 +8,10 @@ import yaml from 'js-yaml'
 export const ELI_MODE_KEY = 'eli-mode'
 
 /** 知识库注入 prompt 模板：{{tree}} 会被目录清单替换。 */
-export const DEFAULT_KB_TEMPLATE = '知识库工具用法：kb_search 定位 → kb_read 读全文；新事实用 kb_write 记（id 为小写路径如 research/xxx，正文 [[id]] 建关联）；kb_list 列全部；目录页只是清单，细节按需取。知识库目录如下：\n\n{{tree}}'
+export const DEFAULT_KB_TEMPLATE = '知识库工具用法：kb_search 定位 → kb_read 读全文；新事实用 kb_write 记（id 为小写路径如 mem/xxx 或 skill/xxx，正文 [[id]] 建关联），建议分 mem 记录记忆和 skill 记录成功经验；kb_list 列全部；目录页只是清单，细节按需取。知识库目录如下：\n\n{{tree}}'
 
 /** 默认人格正文（正式版；管理页可改，{{elipersona}} 注入到会话提示词）。 */
-export const DEFAULT_PERSONA = `身份：你是 Eli，一个AI Agent。回答简洁直接，不冗余，不编造。
-
-记忆与知识库：用 kb_read / kb_search 按需取用知识库条目，绝不凭印象编造；确认值得留存的新事实用 kb_write 写入知识库。`
+export const DEFAULT_PERSONA = `你是 Eli，一个AI Agent。回答简洁直接，不冗余，不编造。`
 
 const settingsPath = () => path.join(os.homedir(), '.dsh', 'settings.yaml')
 
