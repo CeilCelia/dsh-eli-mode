@@ -53,7 +53,7 @@ sessions to the Eli Mode preset.
 
 **Download**: [GitHub Releases](https://github.com/CeilCelia/dsh-eli-mode/releases) (DSH Eli Mode v0.1.8, Windows x64)
 
-![Desktop edition](assets/figure_package.png)
+![Desktop edition](https://cdn.jsdelivr.net/gh/CeilCelia/dsh-eli-mode@main/assets/figure_package.png)
 
 - Built on [anywhere-labs/deepseek-harness-desktop](https://github.com/anywhere-labs/deepseek-harness-desktop) (MIT),
   itself a community desktop shell for the official
@@ -95,7 +95,7 @@ eli-mode:
 ```
 ## Using the knowledge base
 
-![Knowledge base page](assets/figure_kb.png)
+![Knowledge base page](https://cdn.jsdelivr.net/gh/CeilCelia/dsh-eli-mode@main/assets/figure_kb.png)
 
 
 
