@@ -31,12 +31,15 @@ npx -y @deepseek-ai/dsh plugin --profile web add dsh-eli-mode@latest
 
 After restarting `dsh web`:
 
-1. Open a new session and pick the **Eli Mode** preset;
+1. Open a new session and pick the Eli Mode preset;
 2. On first run a default knowledge base is created under `~/.dsh/eli-knowledge/`
    (existing content is never overwritten);
 3. Settings → Plugin Configuration → Eli Mode: edit the persona prompt and the KB
-   injection prompt (**takes effect on new sessions**), or tick "UI polish" and swap the
-   character art (**takes effect immediately**).
+   injection prompt (takes effect on new sessions), or tick "UI polish" and swap the
+   character art (takes effect immediately).
+
+Additionally, this plugin is listed on **dsh-market**: if you have dsh-market
+installed, you can install it by searching `eli-mode` in Settings → Plugin Market.
 
 ### Preset updates
 

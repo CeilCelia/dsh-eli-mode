@@ -15,6 +15,8 @@ Eli Mode 是 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)
 - **界面润色**：子模块eli-polish，在默认主题上增加知识库标签页、token 统计、工具调用折叠以及立绘，该模块默认关闭，在Eli Mode插件配置页勾选「界面润色」即可启动
 ## 安装
 
+本插件已被 **dsh-market** 收录：如果安装了 dsh-market，可直接在 **设置 → 插件市场** 搜索 `eli-mode` 安装本插件。
+
 需要 DSH 0.1.0-rc.6 或更新版本（Node.js >= 22），以及 pnpm（`npm install -g pnpm`，`dsh plugin` 命令依赖它）。
 
 ```sh

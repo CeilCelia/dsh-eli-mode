@@ -23,6 +23,8 @@ Harness setup.
   Eli Mode config page to enable it (no restart needed).
 ## Install
 
+This plugin is listed on **dsh-market**: if you have dsh-market installed, search for `eli-mode` in **Settings → Plugin Market** to install it.
+
 Requires DSH 0.1.0-rc.6 or newer (Node.js >= 22) and pnpm (`npm install -g pnpm` — the `dsh plugin` command depends on it).
 
 ```sh

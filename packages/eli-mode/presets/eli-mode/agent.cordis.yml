@@ -14,12 +14,12 @@
   name: '@deepseek-ai/dsh-persona'
   config:
     text: |-
-      Role: Eli
       工作目录 {{cwd}}，今天是 {{date}}。
 
       {{elipersona}}
-    # 注意：complete 保持 false、includeRuntimeContext 保持 true（默认），
-    # 这样 cwd/日期时间仍由运行时上下文注入；{{cwd}}/{{date}} 由 wiki-index 插件保障可解析。
+    # 身份不再硬编码（去掉了 Role: Eli）——身份完全由人格 prompt（{{elipersona}}）负责，
+    # 避免双重身份声明。工作目录/日期仍由运行时上下文注入。注意：complete 保持 false、
+    # includeRuntimeContext 保持 true（默认）；{{cwd}}/{{date}} 由 wiki-index 插件保障可解析。
     # 人格正文（{{elipersona}}）由 eli-mode 模块从 ~/.dsh/settings.yaml 的
     # eli-mode.personaPrompt 读取（插件-插件配置 → eli-mode 管理页可编辑）。
 
@@ -27,6 +27,10 @@
   name: '@deepseek-ai/dsh-agent-instructions'
   config:
     maxBytes: 65536
+
+# ── prompt trim（遮蔽官方 tool:* 引导中与 schema 重复的部分）──────────────
+- id: prompt-trim
+  name: 'dsh-eli-mode/lib/prompt-trim.js'
 
 # ── shell ───────────────────────────────────────────────────────────────────
 # Windows 上没有 bash；minimal 自带的 bash 持久终端换成本机可用的 pwsh 工具。
