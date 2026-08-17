@@ -6,6 +6,7 @@
  * 把注入里的冗余引导压到只剩 schema 没有的独特信息。
  */
 export const name = 'eli-prompt-trim'
+export const inject = ['systemPrompt']
 
 const SECTIONS = {
 	'tool:read': 'Large files: page with offset/limit.',

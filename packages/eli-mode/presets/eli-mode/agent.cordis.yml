@@ -38,13 +38,8 @@
   name: '@deepseek-ai/dsh-tool-pwsh'
 
 # ── filesystem ──────────────────────────────────────────────────────────────
-- id: tool-fs
-  name: '@deepseek-ai/dsh-tool-fs'
-
-- id: tool-fs-search
-  name: '@deepseek-ai/dsh-tool-fs-search'
-  config:
-    sampleOverCapGlobResults: false
+# tool-fs / tool-fs-search 由 host patch（cordis.patch.yml）挂到 global 层，
+# 这里不重复挂载（否则 preset 层 tool:* 引导与 prompt-trim 同名 section 冲突）。
 
 # ── background jobs ─────────────────────────────────────────────────────────
 
