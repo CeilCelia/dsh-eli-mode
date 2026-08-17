@@ -50,7 +50,7 @@ An out-of-the-box Windows desktop build: bundles this plugin, enables the
 polish/skin by default, auto-initializes on first run, and defaults new
 sessions to the Eli Mode preset.
 
-**Download**: [GitHub Releases](https://github.com/CeilCelia/dsh-eli-mode/releases) (DSH Eli Mode v0.1.8, Windows x64)
+**Download**: [GitHub Releases](https://github.com/CeilCelia/dsh-eli-mode/releases) (DSH Eli Mode v0.1.10, Windows x64)
 
 ![Desktop edition](https://ceilcelia.github.io/dsh-eli-mode/assets/figure_package.png)
 

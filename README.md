@@ -40,7 +40,7 @@ npx -y @deepseek-ai/dsh plugin --profile web add dsh-eli-mode@latest
 
 开箱即用的 Windows 桌面版：内置本插件、默认开启界面润色，首次运行自动初始化，新会话默认 Eli Mode 预设。
 
-**下载**：[GitHub Releases](https://github.com/CeilCelia/dsh-eli-mode/releases)（DSH Eli Mode v0.1.8 · Windows x64）
+**下载**：[GitHub Releases](https://github.com/CeilCelia/dsh-eli-mode/releases)（DSH Eli Mode v0.1.10 · Windows x64）
 
 ![打包版界面](https://ceilcelia.github.io/dsh-eli-mode/assets/figure_package.png)
 
