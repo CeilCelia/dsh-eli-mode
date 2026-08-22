@@ -1,7 +1,7 @@
 {
     "name": "dsh-eli-mode",
-    "version": "0.1.10",
-    "description": "鐭ヨ瘑搴撻┍鍔ㄧ殑 Agent 棰勮",
+    "version": "0.1.11",
+    "description": "知识库驱动的 Agent 预设",
     "type": "module",
     "main": "lib/index.js",
     "exports": {
@@ -39,7 +39,6 @@
         "presets",
         "wiki",
         "ui",
-        "docs",
         "cordis.patch.yml",
         "README.md",
         "README.en.md",

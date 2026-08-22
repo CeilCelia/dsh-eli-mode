@@ -69,7 +69,7 @@ Settings → Plugin Configuration → Eli Mode:
 | Inject KB index | Toggle: whether the directory index goes into the session prompt |
 | UI polish | Toggle: character art, in-chat "Knowledge base" tab, token stats, tool-call collapsing; applies immediately |
 
-> **Works out of the box**: the plugin ships a built-in settings bridge (loopback) so the config card needs no official-allowlist patch. If your deployment disables the bridge (e.g. remote access), see [docs/settings-whitelist.md](docs/settings-whitelist.md) or edit `~/.dsh/settings.yaml` directly.
+> **Works out of the box**: the plugin ships a built-in settings bridge (loopback) so the config card needs no official-allowlist patch. If your deployment disables the bridge (e.g. remote access), edit `~/.dsh/settings.yaml` directly.
 
 ### Direct settings.yaml
 

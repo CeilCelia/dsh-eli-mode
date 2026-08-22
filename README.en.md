@@ -78,7 +78,7 @@ Settings → Plugin Configuration → Eli Mode:
 | Inject KB index | Toggle: whether the directory index goes into the session prompt |
 | UI polish | Toggle: character art, in-chat "Knowledge base" tab, token stats, tool-call collapsing; applies immediately |
 
-> **Works out of the box**: the plugin ships a built-in settings bridge (loopback) so the config card needs no official-allowlist patch. If your deployment disables the bridge (e.g. remote access), see [docs/settings-whitelist.md](docs/settings-whitelist.md) or edit `~/.dsh/settings.yaml` directly.
+> **Works out of the box**: the plugin ships a built-in settings bridge (loopback) so the config card needs no official-allowlist patch. If your deployment disables the bridge (e.g. remote access), edit `~/.dsh/settings.yaml` directly.
 
 ### Direct settings.yaml
 
@@ -122,8 +122,7 @@ packages/
     ├── presets/             # Agent preset (auto-synced to ~/.dsh/.agent-presets/)
     ├── wiki/                # Default knowledge base (seeded on first run; mem/ memory + skill/ skills)
     ├── ui/                  # KB web page and character art
-    ├── cordis.patch.yml     # Host patch (bundle mount; tool-fs back to global layer for prompt-trim shadowing)
-    └── docs/                # Settings whitelist docs
+    └── cordis.patch.yml     # Host patch (bundle mount; tool-fs back to global layer for prompt-trim shadowing)
 ```
 ## License & attribution
 

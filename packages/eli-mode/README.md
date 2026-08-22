@@ -56,7 +56,7 @@ npx -y @deepseek-ai/dsh plugin --profile web add dsh-eli-mode@latest
 | 注入知识库目录      | 开关：是否把目录清单注入会话提示词                       |
 | 界面润色（polish） | 开关：立绘、对话内「知识库」标签页、token 统计、工具调用折叠；免刷新生效 |
 
-> **开箱即用**：插件内置设置桥接（loopback），配置卡片无需修改官方白名单即可使用；若部署禁用了桥接（如远程访问），仍可按 [docs/settings-whitelist.md](docs/settings-whitelist.md) 补充白名单，或直接编辑 `~/.dsh/settings.yaml`。
+> **开箱即用**：插件内置设置桥接（loopback），配置卡片无需修改官方白名单即可使用；若部署禁用了桥接（如远程访问），可直接编辑 `~/.dsh/settings.yaml`。
 
 ### 直接编辑 settings.yaml
 
@@ -98,8 +98,7 @@ packages/
     ├── presets/             # agent 预设（自动同步到 ~/.dsh/.agent-presets/）
     ├── wiki/                # 默认知识库内容（首次运行播种；mem/ 记忆 + skill/ 技能 分层）
     ├── ui/                  # 知识库网页与立绘
-    ├── cordis.patch.yml     # host patch（bundle 挂载、tool-fs 回归 global 层供 prompt-trim 遮蔽）
-    └── docs/                # settings 白名单文档
+    └── cordis.patch.yml     # host patch（bundle 挂载、tool-fs 回归 global 层供 prompt-trim 遮蔽）
 ```
 ## 许可与署名
 

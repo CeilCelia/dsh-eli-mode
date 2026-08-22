@@ -34,8 +34,8 @@ export const EliModeSchema = z.object({
     .default(true),
   polish: z
     .boolean()
-    .description('界面润色：立绘、对话内知识库标签页、token 统计、工具调用折叠。默认关闭，不改动默认 UI。')
-    .default(false),
+    .description('界面润色：立绘、对话内知识库标签页、token 统计、工具调用折叠。默认开启。')
+    .default(true),
 })
 
 function filesEqual(a, b) {
@@ -84,7 +84,6 @@ export function syncPresets() {
 /** 首次运行播种默认知识库（wiki 条目 + ui 页面/立绘）；已有 index.md 则不动作。 */
 export function seedKnowledgeBase() {
   const root = KB_ROOT()
-  if (existsSync(path.join(root, 'index.md'))) return
   mkdirSync(root, { recursive: true })
   const copyTree = (src, dst) => {
     if (!existsSync(src)) return
@@ -96,7 +95,11 @@ export function seedKnowledgeBase() {
       else if (!existsSync(d)) cpSync(s, d)
     }
   }
-  copyTree(WIKI_DIR, path.join(root, 'wiki'))
+  // wiki 只在尚未生成目录页时播种（幂等）；ui（立绘/网页）始终补齐，
+  // 避免与 eli-kb 异步生成 index.md 的竞态导致 ui/index.html 缺失、/eli-kb 404。
+  if (!existsSync(path.join(root, 'index.md'))) {
+    copyTree(WIKI_DIR, path.join(root, 'wiki'))
+  }
   copyTree(UI_DIR, path.join(root, 'ui'))
 }
 

@@ -668,7 +668,7 @@ window.__ModuleLoader__.load({
 							const controller = new EliModeCardController(scope);
 							slots.inject('settings.plugin.item', () => slots.register({
 								name: 'settings.plugin.item',
-								id: 'eli-mode-settings',
+								key: 'eli-mode',
 								order: 110,
 								locale: NS,
 								inject: () => controller.inject()
